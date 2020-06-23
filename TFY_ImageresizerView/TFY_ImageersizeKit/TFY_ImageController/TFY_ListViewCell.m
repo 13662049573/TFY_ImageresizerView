@@ -32,7 +32,7 @@
 -(void)setName_str:(NSString *)name_str{
     _name_str = name_str;
     
-    self.title_label.tfy_text(_name_str);
+    self.title_label.text = _name_str;
 }
 
 -(UILabel *)title_label{

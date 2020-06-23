@@ -11,8 +11,6 @@
 #import "TFY_ListViewCell.h"
 #import "TFY_ImageresizerType.h"
 
-
-
 @interface TFY_ListViewController ()
 @property (nonatomic, copy) void (^getShapeImageBlock)(UIImage *shapeImage);
 @property (nonatomic, copy) NSArray<NSString *> *dataSource;
