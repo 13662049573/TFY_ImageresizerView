@@ -33,7 +33,7 @@
 		5655950624A1B8410013F99B /* TFY_ListViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950524A1B8410013F99B /* TFY_ListViewFlowLayout.m */; };
 		5655950924A1B8A30013F99B /* TFY_ListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950824A1B8A30013F99B /* TFY_ListViewCell.m */; };
 		5655950C24A1BC260013F99B /* UIAlertController+TFY_Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950A24A1BC260013F99B /* UIAlertController+TFY_Tools.m */; };
-		5655951124A1C0FA0013F99B /* imageList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5655951024A1C0FA0013F99B /* imageList.plist */; };
+		5655951324A1CC9B0013F99B /* TFY_ImagePlist.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5655951224A1CC9B0013F99B /* TFY_ImagePlist.bundle */; };
 		565EB7DE24A07A2300DED939 /* TFY_ImageresizerBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D324A07A2300DED939 /* TFY_ImageresizerBlur.m */; };
 		565EB7DF24A07A2300DED939 /* UIImage+TFY_ImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D424A07A2300DED939 /* UIImage+TFY_ImageLayer.m */; };
 		565EB7E024A07A2300DED939 /* TFY_ImageresizerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D624A07A2300DED939 /* TFY_ImageresizerView.m */; };
@@ -115,7 +115,7 @@
 		5655950824A1B8A30013F99B /* TFY_ListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewCell.m; sourceTree = "<group>"; };
 		5655950A24A1BC260013F99B /* UIAlertController+TFY_Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFY_Tools.m"; sourceTree = "<group>"; };
 		5655950B24A1BC260013F99B /* UIAlertController+TFY_Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFY_Tools.h"; sourceTree = "<group>"; };
-		5655951024A1C0FA0013F99B /* imageList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = imageList.plist; sourceTree = "<group>"; };
+		5655951224A1CC9B0013F99B /* TFY_ImagePlist.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TFY_ImagePlist.bundle; sourceTree = "<group>"; };
 		565EB7D224A07A2300DED939 /* TFY_ImageresizerFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ImageresizerFrame.h; sourceTree = "<group>"; };
 		565EB7D324A07A2300DED939 /* TFY_ImageresizerBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageresizerBlur.m; sourceTree = "<group>"; };
 		565EB7D424A07A2300DED939 /* UIImage+TFY_ImageLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TFY_ImageLayer.m"; sourceTree = "<group>"; };
@@ -312,7 +312,7 @@
 		5655950D24A1BF070013F99B /* TFY_imagebundle */ = {
 			isa = PBXGroup;
 			children = (
-				5655951024A1C0FA0013F99B /* imageList.plist */,
+				5655951224A1CC9B0013F99B /* TFY_ImagePlist.bundle */,
 			);
 			path = TFY_imagebundle;
 			sourceTree = "<group>";
@@ -487,7 +487,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5655951124A1C0FA0013F99B /* imageList.plist in Resources */,
+				5655951324A1CC9B0013F99B /* TFY_ImagePlist.bundle in Resources */,
 				36858F9D249EEE1D00C1903F /* Digital-7.TTF in Resources */,
 				36E124AB249DFE3000077563 /* LaunchScreen.storyboard in Resources */,
 				36E12501249E265000077563 /* shapeList.plist in Resources */,

@@ -69,7 +69,9 @@ static NSArray<NSString *> *shapes_;
     _isDidAppear = YES;
     if (!shapes_) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            shapes_ = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"imageList" ofType:@"plist"]];
+            NSString *path = [[[NSBundle mainBundle] pathForResource:@"TFY_ImagePlist" ofType:@"bundle"] stringByAppendingPathComponent:@"imageList.plist"];
+            shapes_ = [NSArray arrayWithContentsOfFile:path];
+        
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self __reloadData:shapes_];
             });
