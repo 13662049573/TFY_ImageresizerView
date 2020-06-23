@@ -1,0 +1,220 @@
+//
+//  TFY_ImageresizerConfigure.m
+//  TFY_ImageresizerView
+//
+//  Created by 田风有 on 2020/6/20.
+//  Copyright © 2020 田风有. All rights reserved.
+//
+
+#import "TFY_ImageresizerConfigure.h"
+
+@implementation TFY_ImageresizerConfigure
+
++ (instancetype)defaultConfigureWithResizeImage:(UIImage *)resizeImage make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [[self alloc] init];
+    configure
+    .tfy_resizeImage(resizeImage)
+    .tfy_viewFrame([UIScreen mainScreen].bounds)
+    .tfy_blurEffect(nil)
+    .tfy_frameType(TFY_ConciseFrameType)
+    .tfy_animationCurve(TFY_AnimationCurveEaseOut)
+    .tfy_strokeColor(UIColor.whiteColor)
+    .tfy_bgColor([UIColor colorWithHue:0.63 saturation:0.49 brightness:0.20 alpha:1.00])
+    .tfy_maskAlpha(0.75)
+    .tfy_resizeWHScale(0.0)
+    .tfy_isArbitrarilyInitial(YES)
+    .tfy_edgeLineIsEnabled(YES)
+    .tfy_contentInsets(UIEdgeInsetsZero)
+    .tfy_borderImage([UIImage imageNamed:@""])
+    .tfy_borderImageRectInset(CGPointZero)
+    .tfy_maximumZoomScale(3)
+    .tfy_isRoundResize(NO)
+    .tfy_isShowMidDots(YES)
+    .tfy_isBlurWhenDragging(NO)
+    .tfy_isShowGridlinesWhenDragging(NO)
+    .tfy_gridCount(3)
+    .tfy_maskImage([UIImage imageNamed:@""])
+    .tfy_isArbitrarilyMask(NO);
+    !make ? : make(configure);
+    return configure;
+}
+
+
++ (instancetype)lightBlurMaskTypeConfigureWithResizeImage:(UIImage *)resizeImage make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self defaultConfigureWithResizeImage:resizeImage make:^(TFY_ImageresizerConfigure *configure) {
+        configure.tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]).tfy_bgColor([UIColor whiteColor]).tfy_maskAlpha(0.25);
+    }];
+    !make ? : make(configure);
+    return configure;
+}
+
++ (instancetype)darkBlurMaskTypeConfigureWithResizeImage:(UIImage *)resizeImage make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self defaultConfigureWithResizeImage:resizeImage make:^(TFY_ImageresizerConfigure *configure) {
+        configure.tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]).tfy_bgColor([UIColor blackColor]).tfy_maskAlpha(0.25);
+    }];
+    !make ? : make(configure);
+    return configure;
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_resizeImage {
+    return ^(UIImage *resizeImage) {
+        self.resizeImage = resizeImage;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(CGRect))tfy_viewFrame {
+    return ^(CGRect viewFrame) {
+        self.viewFrame = viewFrame;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(TFY_ImageresizerFrameType))tfy_frameType {
+    return ^(TFY_ImageresizerFrameType frameType) {
+        self.frameType = frameType;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(TFY_AnimationCurve))tfy_animationCurve {
+    return ^(TFY_AnimationCurve animationCurve) {
+        self.animationCurve = animationCurve;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIBlurEffect *))tfy_blurEffect {
+    return ^(UIBlurEffect *blurEffect) {
+        self.blurEffect = blurEffect;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIColor *))tfy_bgColor {
+    return ^(UIColor *bgColor) {
+        self.bgColor = bgColor;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(CGFloat))tfy_maskAlpha {
+    return ^(CGFloat maskAlpha) {
+        self.maskAlpha = maskAlpha;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIColor *))tfy_strokeColor {
+    return ^(UIColor *strokeColor) {
+        self.strokeColor = strokeColor;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(CGFloat))tfy_resizeWHScale {
+    return ^(CGFloat resizeWHScale) {
+        self.resizeWHScale = resizeWHScale;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isArbitrarilyInitial {
+    return ^(BOOL isArbitrarilyInitial) {
+        self.isArbitrarilyInitial = isArbitrarilyInitial;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_edgeLineIsEnabled {
+    return ^(BOOL edgeLineIsEnabled) {
+        self.edgeLineIsEnabled = edgeLineIsEnabled;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIEdgeInsets))tfy_contentInsets {
+    return ^(UIEdgeInsets contentInsets) {
+        self.contentInsets = contentInsets;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isClockwiseRotation {
+    return ^(BOOL isClockwiseRotation) {
+        self.isClockwiseRotation = isClockwiseRotation;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_borderImage {
+    return ^(UIImage *borderImage) {
+        self.borderImage = borderImage;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(CGPoint))tfy_borderImageRectInset {
+    return ^(CGPoint borderImageRectInset) {
+        self.borderImageRectInset = borderImageRectInset;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(CGFloat))tfy_maximumZoomScale {
+    return ^(CGFloat maximumZoomScale) {
+        self.maximumZoomScale = maximumZoomScale;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isRoundResize {
+    return ^(BOOL isRoundResize) {
+        self.isRoundResize = isRoundResize;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isShowMidDots {
+    return ^(BOOL isShowMidDots) {
+        self.isShowMidDots = isShowMidDots;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isBlurWhenDragging {
+    return ^(BOOL isBlurWhenDragging) {
+        self.isBlurWhenDragging = isBlurWhenDragging;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isShowGridlinesWhenDragging {
+    return ^(BOOL isShowGridlinesWhenDragging) {
+        self.isShowGridlinesWhenDragging = isShowGridlinesWhenDragging;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(NSUInteger))tfy_gridCount {
+    return ^(NSUInteger gridCount) {
+        self.gridCount = gridCount;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_maskImage {
+    return ^(UIImage *maskImage) {
+        self.maskImage = maskImage;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isArbitrarilyMask {
+    return ^(BOOL isArbitrarilyMask) {
+        self.isArbitrarilyMask = isArbitrarilyMask;
+        return self;
+    };
+}
+
+@end

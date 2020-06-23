@@ -1,0 +1,6 @@
+framework module Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests {
+  umbrella header "Pods-TFY_ImageresizerView-TFY_ImageresizerViewUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

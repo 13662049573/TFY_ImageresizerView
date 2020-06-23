@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests : NSObject
+@end
+@implementation PodsDummy_Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests
+@end
