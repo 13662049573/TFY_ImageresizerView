@@ -3,7 +3,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "TFY_ImageersizeKit"
-  spec.version      = "2.0.2"
+  spec.version      = "2.0.4"
   spec.summary      = "相机获取和裁剪图片"
 
   spec.description  = <<-DESC
@@ -19,7 +19,7 @@ Pod::Spec.new do |spec|
 
   spec.source       = { :git => "https://github.com/13662049573/TFY_ImageresizerView.git", :tag => spec.version }
 
-  spec.source_files  =  "TFY_ImageresizerView/TFY_ImageersizeKit/**/*.{h,m}","TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageersizeHeader.h"
+  spec.source_files  =  "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageersizeHeader.h"
   
   spec.ios.deployment_target = '10.0' 
   
@@ -30,7 +30,6 @@ Pod::Spec.new do |spec|
   spec.subspec 'TFY_ImageController' do |s|
     s.dependency "TFY_ImageersizeKit/TFY_ImageSizeTools"
     s.source_files  = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageController/**/*.{h,m}"
-    
   end
 
   spec.subspec 'TFY_imagebundle' do |s|
