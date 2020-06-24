@@ -30,8 +30,9 @@ Pod::Spec.new do |spec|
   spec.subspec 'TFY_ImageController' do |s|
     s.dependency "TFY_ImageersizeKit/TFY_ImageSizeTools"
     s.source_files  = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageController/**/*.{h,m}"
-    s.resources     = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageController/TFY_ImagePlist.bundle"
   end
+
+  spec.resources     = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImagePlist.bundle"
     
   spec.xcconfig      = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include" }
   
