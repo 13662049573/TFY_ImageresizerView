@@ -51,7 +51,7 @@ static NSArray<NSString *> *shapes_;
     self.title = @"蒙版列表";
     self.view.backgroundColor = UIColor.whiteColor;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(__back)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[self tfy_fileImage:@"fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(__back)];
     
     _baseFont = [UIFont systemFontOfSize:55];
     _smallFont = [UIFont systemFontOfSize:30];
@@ -79,6 +79,10 @@ static NSArray<NSString *> *shapes_;
     } else {
        [self __reloadData:shapes_];
     }
+}
+
+-(UIImage *)tfy_fileImage:(NSString *)fileImage{
+    return [UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] pathForResource:@"TFY_ImagePlist" ofType:@"bundle"] stringByAppendingPathComponent:fileImage]];
 }
 
 #pragma mark - 私有方法
