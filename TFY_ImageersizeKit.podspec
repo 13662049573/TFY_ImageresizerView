@@ -3,7 +3,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "TFY_ImageersizeKit"
-  spec.version      = "2.0.6"
+  spec.version      = "2.0.8"
   spec.summary      = "相机获取和裁剪图片"
 
   spec.description  = <<-DESC
@@ -30,9 +30,8 @@ Pod::Spec.new do |spec|
   spec.subspec 'TFY_ImageController' do |s|
     s.dependency "TFY_ImageersizeKit/TFY_ImageSizeTools"
     s.source_files  = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageController/**/*.{h,m}"
+    s.resources     = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageController/TFY_ImagePlist.bundle"
   end
-
-  spec.resources     = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImagePlist.bundle"
     
   spec.xcconfig      = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include" }
   
