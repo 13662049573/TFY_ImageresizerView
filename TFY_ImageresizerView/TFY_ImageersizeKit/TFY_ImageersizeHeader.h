@@ -8,11 +8,11 @@
 
 #ifndef TFY_ImageersizeHeader_h
 #define TFY_ImageersizeHeader_h
-//相机获取
-#import "TFY_ImagePickerController.h"
+
 //裁剪图片
 #import "TFY_ImageresizerView.h"
-#import "TFY_ImageresizerConfigure.h"
+#import "TFY_ImageresizerTool.h"
+#import "TFY_ImageresizerSlider.h"
 //授权工具
 #import "TFY_PhotoTool.h"
 

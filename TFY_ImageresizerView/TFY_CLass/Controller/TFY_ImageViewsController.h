@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TFY_ImageViewsController : UIViewController
 @property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) NSURL *imageURL;
+@property (nonatomic, strong) NSURL *videoURL;
 @end
 
 NS_ASSUME_NONNULL_END

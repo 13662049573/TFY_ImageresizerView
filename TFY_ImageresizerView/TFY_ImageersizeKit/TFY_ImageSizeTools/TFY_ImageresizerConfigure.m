@@ -10,57 +10,216 @@
 
 @implementation TFY_ImageresizerConfigure
 
-+ (instancetype)defaultConfigureWithResizeImage:(UIImage *)resizeImage make:(void (^)(TFY_ImageresizerConfigure *))make {
++ (instancetype)defaultConfigureWithImage:(UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self __defaultConfigure];
+    configure.image = image;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)defaultConfigureWithImageData:(NSData *)imageData make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self __defaultConfigure];
+    configure.imageData = imageData;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)defaultConfigureWithVideoURL:(NSURL *)videoURL
+                                        make:(void (^)(TFY_ImageresizerConfigure *))make
+                               fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                               fixStartBlock:(void(^)(void))fixStartBlock
+                            fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+                            fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    TFY_ImageresizerConfigure *configure = [self __defaultConfigure];
+    configure.videoURL = videoURL;
+    configure.fixErrorBlock = fixErrorBlock;
+    configure.fixStartBlock = fixStartBlock;
+    configure.fixProgressBlock = fixProgressBlock;
+    configure.fixCompleteBlock = fixCompleteBlock;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)defaultConfigureWithVideoAsset:(AVURLAsset *)videoAsset
+                                          make:(void (^)(TFY_ImageresizerConfigure *))make
+                                 fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                                 fixStartBlock:(void(^)(void))fixStartBlock
+                              fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+                              fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    TFY_ImageresizerConfigure *configure = [self __defaultConfigure];
+    configure.videoAsset = videoAsset;
+    configure.fixErrorBlock = fixErrorBlock;
+    configure.fixStartBlock = fixStartBlock;
+    configure.fixProgressBlock = fixProgressBlock;
+    configure.fixCompleteBlock = fixCompleteBlock;
+    !make ? : make(configure);
+    return configure;
+}
+
++ (instancetype)lightBlurMaskTypeConfigureWithImage:(UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self __lightBlurMaskTypeConfigure];
+    configure.image = image;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)lightBlurMaskTypeConfigureWithImageData:(NSData *)imageData make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self __lightBlurMaskTypeConfigure];
+    configure.imageData = imageData;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)lightBlurMaskTypeConfigureWithVideoURL:(NSURL *)videoURL
+                                                  make:(void (^)(TFY_ImageresizerConfigure *))make
+                                         fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                                         fixStartBlock:(void(^)(void))fixStartBlock
+                                      fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+                                      fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    TFY_ImageresizerConfigure *configure = [self __lightBlurMaskTypeConfigure];
+    configure.videoURL = videoURL;
+    configure.fixErrorBlock = fixErrorBlock;
+    configure.fixStartBlock = fixStartBlock;
+    configure.fixProgressBlock = fixProgressBlock;
+    configure.fixCompleteBlock = fixCompleteBlock;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)lightBlurMaskTypeConfigureWithVideoAsset:(AVURLAsset *)videoAsset
+                                                    make:(void (^)(TFY_ImageresizerConfigure *))make
+                                           fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                                           fixStartBlock:(void(^)(void))fixStartBlock
+                                        fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+                                        fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    TFY_ImageresizerConfigure *configure = [self __lightBlurMaskTypeConfigure];
+    configure.videoAsset = videoAsset;
+    configure.fixErrorBlock = fixErrorBlock;
+    configure.fixStartBlock = fixStartBlock;
+    configure.fixProgressBlock = fixProgressBlock;
+    configure.fixCompleteBlock = fixCompleteBlock;
+    !make ? : make(configure);
+    return configure;
+}
+
++ (instancetype)darkBlurMaskTypeConfigureWithImage:(UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self __darkBlurMaskTypeConfigure];
+    configure.image = image;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)darkBlurMaskTypeConfigureWithImageData:(NSData *)imageData make:(void (^)(TFY_ImageresizerConfigure *))make {
+    TFY_ImageresizerConfigure *configure = [self __darkBlurMaskTypeConfigure];
+    configure.imageData = imageData;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)darkBlurMaskTypeConfigureWithVideoURL:(NSURL *)videoURL
+                                                 make:(void (^)(TFY_ImageresizerConfigure *))make
+                                        fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                                        fixStartBlock:(void(^)(void))fixStartBlock
+                                     fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+                                     fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    TFY_ImageresizerConfigure *configure = [self __darkBlurMaskTypeConfigure];
+    configure.videoURL = videoURL;
+    configure.fixErrorBlock = fixErrorBlock;
+    configure.fixStartBlock = fixStartBlock;
+    configure.fixProgressBlock = fixProgressBlock;
+    configure.fixCompleteBlock = fixCompleteBlock;
+    !make ? : make(configure);
+    return configure;
+}
++ (instancetype)darkBlurMaskTypeConfigureWithVideoAsset:(AVURLAsset *)videoAsset
+                                                   make:(void (^)(TFY_ImageresizerConfigure *))make
+                                          fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                                          fixStartBlock:(void(^)(void))fixStartBlock
+                                       fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+                                       fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    TFY_ImageresizerConfigure *configure = [self __darkBlurMaskTypeConfigure];
+    configure.videoAsset = videoAsset;
+    configure.fixErrorBlock = fixErrorBlock;
+    configure.fixStartBlock = fixStartBlock;
+    configure.fixProgressBlock = fixProgressBlock;
+    configure.fixCompleteBlock = fixCompleteBlock;
+    !make ? : make(configure);
+    return configure;
+}
+
++ (instancetype)__defaultConfigure {
     TFY_ImageresizerConfigure *configure = [[self alloc] init];
     configure
-    .tfy_resizeImage(resizeImage)
     .tfy_viewFrame([UIScreen mainScreen].bounds)
     .tfy_blurEffect(nil)
     .tfy_frameType(TFY_ConciseFrameType)
     .tfy_animationCurve(TFY_AnimationCurveEaseOut)
     .tfy_strokeColor(UIColor.whiteColor)
-    .tfy_bgColor([UIColor colorWithHue:0.63 saturation:0.49 brightness:0.20 alpha:1.00])
+    .tfy_bgColor(UIColor.blackColor)
     .tfy_maskAlpha(0.75)
     .tfy_resizeWHScale(0.0)
-    .tfy_isArbitrarilyInitial(YES)
+    .tfy_isRoundResize(NO)
+    .tfy_maskImage(nil)
+    .tfy_isArbitrarily(YES)
     .tfy_edgeLineIsEnabled(YES)
     .tfy_contentInsets(UIEdgeInsetsZero)
-    .tfy_borderImage([UIImage imageNamed:@""])
+    .tfy_borderImage(nil)
     .tfy_borderImageRectInset(CGPointZero)
-    .tfy_maximumZoomScale(3)
-    .tfy_isRoundResize(NO)
+    .tfy_maximumZoomScale(10.0)
     .tfy_isShowMidDots(YES)
     .tfy_isBlurWhenDragging(NO)
-    .tfy_isShowGridlinesWhenDragging(NO)
+    .tfy_isShowGridlinesWhenIdle(NO)
+    .tfy_isShowGridlinesWhenDragging(YES)
     .tfy_gridCount(3)
-    .tfy_maskImage([UIImage imageNamed:@""])
-    .tfy_isArbitrarilyMask(NO);
-    !make ? : make(configure);
+    .tfy_isLoopPlaybackGIF(NO);
     return configure;
 }
 
-
-+ (instancetype)lightBlurMaskTypeConfigureWithResizeImage:(UIImage *)resizeImage make:(void (^)(TFY_ImageresizerConfigure *))make {
-    TFY_ImageresizerConfigure *configure = [self defaultConfigureWithResizeImage:resizeImage make:^(TFY_ImageresizerConfigure *configure) {
-        configure.tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]).tfy_bgColor([UIColor whiteColor]).tfy_maskAlpha(0.25);
-    }];
-    !make ? : make(configure);
++ (TFY_ImageresizerConfigure *)__lightBlurMaskTypeConfigure {
+    TFY_ImageresizerConfigure *configure = [self __defaultConfigure];
+    configure
+    .tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleLight])
+    .tfy_bgColor(UIColor.whiteColor)
+    .tfy_maskAlpha(0.25)
+    .tfy_strokeColor([UIColor colorWithRed:(56.0 / 255.0) green:(121.0 / 255.0) blue:(242.0 / 255.0) alpha:1.0]);
     return configure;
 }
 
-+ (instancetype)darkBlurMaskTypeConfigureWithResizeImage:(UIImage *)resizeImage make:(void (^)(TFY_ImageresizerConfigure *))make {
-    TFY_ImageresizerConfigure *configure = [self defaultConfigureWithResizeImage:resizeImage make:^(TFY_ImageresizerConfigure *configure) {
-        configure.tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]).tfy_bgColor([UIColor blackColor]).tfy_maskAlpha(0.25);
-    }];
-    !make ? : make(configure);
++ (TFY_ImageresizerConfigure *)__darkBlurMaskTypeConfigure {
+    TFY_ImageresizerConfigure *configure = [self __defaultConfigure];
+    configure
+    .tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleDark])
+    .tfy_bgColor(UIColor.blackColor)
+    .tfy_maskAlpha(0.25);
     return configure;
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_resizeImage {
-    return ^(UIImage *resizeImage) {
-        self.resizeImage = resizeImage;
-        return self;
-    };
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    if (image) {
+        _imageData = nil;
+        _videoURL = nil;
+        _videoAsset = nil;
+    }
+}
+
+- (void)setImageData:(NSData *)imageData {
+    _imageData = imageData;
+    if (imageData) {
+        _image = nil;
+        _videoURL = nil;
+        _videoAsset = nil;
+    }
+}
+
+- (void)setVideoURL:(NSURL *)videoURL {
+    _videoURL = videoURL;
+    if (videoURL) {
+        _image = nil;
+        _imageData = nil;
+        _videoAsset = nil;
+    }
+}
+
+- (void)setVideoAsset:(AVURLAsset *)videoAsset {
+    _videoAsset = videoAsset;
+    if (videoAsset) {
+        _image = nil;
+        _imageData = nil;
+        _videoURL = nil;
+    }
 }
 
 - (TFY_ImageresizerConfigure *(^)(CGRect))tfy_viewFrame {
@@ -119,9 +278,23 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isArbitrarilyInitial {
-    return ^(BOOL isArbitrarilyInitial) {
-        self.isArbitrarilyInitial = isArbitrarilyInitial;
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isRoundResize {
+    return ^(BOOL isRoundResize) {
+        self.isRoundResize = isRoundResize;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_maskImage {
+    return ^(UIImage *maskImage) {
+        self.maskImage = maskImage;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isArbitrarily {
+    return ^(BOOL isArbitrarily) {
+        self.isArbitrarily = isArbitrarily;
         return self;
     };
 }
@@ -168,13 +341,6 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isRoundResize {
-    return ^(BOOL isRoundResize) {
-        self.isRoundResize = isRoundResize;
-        return self;
-    };
-}
-
 - (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isShowMidDots {
     return ^(BOOL isShowMidDots) {
         self.isShowMidDots = isShowMidDots;
@@ -185,6 +351,13 @@
 - (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isBlurWhenDragging {
     return ^(BOOL isBlurWhenDragging) {
         self.isBlurWhenDragging = isBlurWhenDragging;
+        return self;
+    };
+}
+
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isShowGridlinesWhenIdle {
+    return ^(BOOL isShowGridlinesWhenIdle) {
+        self.isShowGridlinesWhenIdle = isShowGridlinesWhenIdle;
         return self;
     };
 }
@@ -203,16 +376,9 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_maskImage {
-    return ^(UIImage *maskImage) {
-        self.maskImage = maskImage;
-        return self;
-    };
-}
-
-- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isArbitrarilyMask {
-    return ^(BOOL isArbitrarilyMask) {
-        self.isArbitrarilyMask = isArbitrarilyMask;
+- (TFY_ImageresizerConfigure *(^)(BOOL))tfy_isLoopPlaybackGIF {
+    return ^(BOOL isLoopPlaybackGIF) {
+        self.isLoopPlaybackGIF = isLoopPlaybackGIF;
         return self;
     };
 }

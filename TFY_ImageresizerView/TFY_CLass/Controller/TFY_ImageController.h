@@ -11,8 +11,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TFY_ImageController : UIViewController
-@property (nonatomic, copy) void (^backBlock)(TFY_ImageController *vc);
++ (UIImage *)stretchBorderImage;
++ (CGPoint)stretchBorderImageRectInset;
++ (UIImage *)tileBorderImage;
++ (CGPoint)tileBorderImageRectInset;
+
+@property (nonatomic, assign) UIStatusBarStyle statusBarStyle;
 @property (nonatomic, strong) TFY_ImageresizerConfigure *configure;
+@property (nonatomic, assign) BOOL isBecomeDanielWu;
+@property (nonatomic, weak) TFY_ImageresizerView *imageresizerView;
+@property (nonatomic, copy) void (^backBlock)(TFY_ImageController *vc);
+
++ (void)showErrorMsg:(TFY_ImageresizerErrorReason)reason pathExtension:(NSString *)pathExtension;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,9 @@
 //
 
 #import "TFY_ImageresizerView.h"
+#import "TFY_ImageresizerSlider.h"
+#import "TFY_ImageresizerTool.h"
+#import "TFY_ImageresizerFrame.h"
 
 #ifdef DEBUG
 #define TFY_IRLog(...) printf("%s %s 第%d行: %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
@@ -17,229 +20,17 @@
 @interface TFY_ImageresizerView ()<UIScrollViewDelegate>
 @property (nonatomic, strong) NSMutableArray *allDirections;
 @property (nonatomic, assign) NSInteger directionIndex;
-@property (nonatomic, strong) UIScrollView *currentScrollView;
-@property (nonatomic, weak)TFY_ImageresizerConfigure *configure;
+@property (nonatomic, strong) TFY_ImageresizerTool *videoObj;
+@property (nonatomic, strong) TFY_PlayerView *playerView;
+@property (nonatomic, strong) TFY_ImageresizerSlider *slider;
+@property (nonatomic, weak) AVAssetExportSession *exporterSession;
+@property (nonatomic, strong) NSTimer *progressTimer;
+@property (nonatomic, copy) TFY_ExportVideoProgressBlock progressBlock;
 @end
 
-@implementation TFY_ImageresizerView
-{
+@implementation TFY_ImageresizerView{
     UIEdgeInsets _contentInsets;
     UIViewAnimationOptions _animationOption;
-}
-
-#pragma mark - setter
-
-- (void)setFrameType:(TFY_ImageresizerFrameType)frameType {
-    [self.frameView updateFrameType:frameType];
-}
-
-- (void)setBlurEffect:(UIBlurEffect *)blurEffect {
-    [self.frameView setupStrokeColor:self.strokeColor blurEffect:blurEffect bgColor:self.bgColor maskAlpha:self.maskAlpha animated:YES];
-}
-
-- (void)setBgColor:(UIColor *)bgColor {
-    [self.frameView setupStrokeColor:self.strokeColor blurEffect:self.blurEffect bgColor:bgColor maskAlpha:self.maskAlpha animated:YES];
-}
-
-- (void)setMaskAlpha:(CGFloat)maskAlpha {
-    [self.frameView setupStrokeColor:self.strokeColor blurEffect:self.blurEffect bgColor:self.bgColor maskAlpha:maskAlpha animated:YES];
-}
-
-- (void)setStrokeColor:(UIColor *)strokeColor {
-    [self.frameView setupStrokeColor:strokeColor blurEffect:self.blurEffect bgColor:self.bgColor maskAlpha:self.maskAlpha animated:YES];
-}
-
-- (void)setResizeImage:(UIImage *)resizeImage {
-    [self setResizeImage:resizeImage animated:YES transition:UIViewAnimationTransitionCurlUp];
-}
-
-- (void)setResizeWHScale:(CGFloat)resizeWHScale {
-    [self.frameView setResizeWHScale:resizeWHScale isToBeArbitrarily:NO animated:YES];
-}
-
-- (void)setInitialResizeWHScale:(CGFloat)initialResizeWHScale {
-    self.frameView.initialResizeWHScale = initialResizeWHScale;
-}
-
-- (void)setEdgeLineIsEnabled:(BOOL)edgeLineIsEnabled {
-    _edgeLineIsEnabled = edgeLineIsEnabled;
-    self.frameView.edgeLineIsEnabled = edgeLineIsEnabled;
-}
-
-- (void)setIsClockwiseRotation:(BOOL)isClockwiseRotation {
-    if (_isClockwiseRotation == isClockwiseRotation) return;
-    _isClockwiseRotation = isClockwiseRotation;
-    [self.allDirections exchangeObjectAtIndex:1 withObjectAtIndex:3];
-    if (self.directionIndex == 1) {
-        self.directionIndex = 3;
-    } else if (self.directionIndex == 3) {
-        self.directionIndex = 1;
-    }
-}
-
-- (void)setDirectionIndex:(NSInteger)directionIndex {
-    NSInteger maxIndex = self.allDirections.count - 1;
-    NSInteger minIndex = 0;
-    if (directionIndex < minIndex) {
-        directionIndex = maxIndex;
-    } else if (directionIndex > maxIndex) {
-        directionIndex = minIndex;
-    }
-    _directionIndex = directionIndex;
-}
-
-- (void)setAnimationCurve:(TFY_AnimationCurve)animationCurve {
-    _animationCurve = animationCurve;
-    _frameView.animationCurve = animationCurve;
-    switch (animationCurve) {
-        case TFY_AnimationCurveEaseInOut:
-            _animationOption = UIViewAnimationOptionCurveEaseInOut;
-            break;
-        case TFY_AnimationCurveEaseIn:
-            _animationOption = UIViewAnimationOptionCurveEaseIn;
-            break;
-        case TFY_AnimationCurveEaseOut:
-            _animationOption = UIViewAnimationOptionCurveEaseOut;
-            break;
-        case TFY_AnimationCurveLinear:
-            _animationOption = UIViewAnimationOptionCurveLinear;
-            break;
-    }
-}
-
-- (void)setIsLockResizeFrame:(BOOL)isLockResizeFrame {
-    self.frameView.panGR.enabled = !isLockResizeFrame;
-}
-
-- (void)setVerticalityMirror:(BOOL)verticalityMirror {
-    [self setVerticalityMirror:verticalityMirror animated:YES];
-}
-
-- (void)setHorizontalMirror:(BOOL)horizontalMirror {
-    [self setHorizontalMirror:horizontalMirror animated:YES];
-}
-
-- (void)setIsPreview:(BOOL)isPreview {
-    [self setIsPreview:isPreview animated:YES];
-}
-
-- (void)setBorderImage:(UIImage *)borderImage {
-    self.frameView.borderImage = borderImage;
-}
-
-- (void)setBorderImageRectInset:(CGPoint)borderImageRectInset {
-    self.frameView.borderImageRectInset = borderImageRectInset;
-}
-
-- (void)setIsShowMidDots:(BOOL)isShowMidDots {
-    self.frameView.isShowMidDots = isShowMidDots;
-}
-
-- (void)setIsBlurWhenDragging:(BOOL)isBlurWhenDragging {
-    self.frameView.isBlurWhenDragging = isBlurWhenDragging;
-}
-
-- (void)setIsShowGridlinesWhenDragging:(BOOL)isShowGridlinesWhenDragging {
-    self.frameView.isShowGridlinesWhenDragging = isShowGridlinesWhenDragging;
-}
-
-- (void)setGridCount:(NSUInteger)gridCount {
-    self.frameView.gridCount = gridCount;
-}
-
-- (void)setMaskImage:(UIImage *)maskImage {
-    [self.frameView setMaskImage:maskImage animated:YES];
-}
-
-- (void)setIsArbitrarilyMask:(BOOL)isArbitrarilyMask {
-    [self.frameView setIsArbitrarilyMask:isArbitrarilyMask animated:YES];
-}
-
-#pragma mark - getter
-
-- (TFY_ImageresizerFrameType)frameType {
-    return _frameView.frameType;
-}
-
-- (CGSize)baseContentMaxSize {
-    return _frameView.baseContentMaxSize;
-}
-
-- (UIBlurEffect *)blurEffect {
-    return _frameView.blurEffect;
-}
-
-- (UIColor *)bgColor {
-    return _frameView.bgColor;
-}
-
-- (CGFloat)maskAlpha {
-    return _frameView.maskAlpha;
-}
-
-- (UIColor *)strokeColor {
-    return _frameView.strokeColor;
-}
-
-- (UIImage *)resizeImage {
-    return _imageView.image;
-}
-
-- (CGFloat)resizeWHScale {
-    return _frameView.resizeWHScale;
-}
-
-- (CGFloat)initialResizeWHScale {
-    return _frameView.initialResizeWHScale;
-}
-
-- (CGFloat)imageresizeWHScale {
-    CGFloat w = _frameView.imageresizerFrame.size.width;
-    CGFloat h = _frameView.imageresizerFrame.size.height;
-    if (w > 0.0 && h > 0.0) {
-        return (w / h);
-    }
-    return 0.0;
-}
-
-- (BOOL)isLockResizeFrame {
-    return !_frameView.panGR.enabled;
-}
-
-- (BOOL)isPreview {
-    return _frameView.isPreview;
-}
-
-- (UIImage *)borderImage {
-    return _frameView.borderImage;
-}
-
-- (CGPoint)borderImageRectInset {
-    return _frameView.borderImageRectInset;
-}
-
-- (BOOL)isShowMidDots {
-    return _frameView.isShowMidDots;
-}
-
-- (BOOL)isBlurWhenDragging {
-    return _frameView.isBlurWhenDragging;
-}
-
-- (BOOL)isShowGridlinesWhenDragging {
-    return _frameView.isShowGridlinesWhenDragging;
-}
-
-- (NSUInteger)gridCount {
-    return _frameView.gridCount;
-}
-
-- (UIImage *)maskImage {
-    return _frameView.maskImage;
-}
-
-- (BOOL)isArbitrarilyMask {
-    return _frameView.isArbitrarilyMask;
 }
 
 #pragma mark - init
@@ -247,68 +38,27 @@
 + (instancetype)imageresizerViewWithConfigure:(TFY_ImageresizerConfigure *)configure
                     imageresizerIsCanRecovery:(TFY_ImageresizerIsCanRecoveryBlock)imageresizerIsCanRecovery
                  imageresizerIsPrepareToScale:(TFY_ImageresizerIsPrepareToScaleBlock)imageresizerIsPrepareToScale {
-    TFY_ImageresizerView *imageresizerView = [[self alloc] initWithResizeImage:configure.resizeImage
-                                       frame:configure.viewFrame
-                                   frameType:configure.frameType
-                              animationCurve:configure.animationCurve blurEffect:configure.blurEffect
-                                     bgColor:configure.bgColor
-                                   maskAlpha:configure.maskAlpha
-                                 strokeColor:configure.strokeColor
-                               resizeWHScale:configure.resizeWHScale
-                        isArbitrarilyInitial:configure.isArbitrarilyInitial
-                               contentInsets:configure.contentInsets
-                         isClockwiseRotation:configure.isClockwiseRotation
-                                 borderImage:configure.borderImage
-                        borderImageRectInset:configure.borderImageRectInset
-                            maximumZoomScale:configure.maximumZoomScale
-                               isRoundResize:configure.isRoundResize
-                               isShowMidDots:configure.isShowMidDots
-                          isBlurWhenDragging:configure.isBlurWhenDragging
-                 isShowGridlinesWhenDragging:configure.isShowGridlinesWhenDragging
-                                   gridCount:configure.gridCount
-                                   maskImage:configure.maskImage
-                           isArbitrarilyMask:configure.isArbitrarilyMask
-                   imageresizerIsCanRecovery:imageresizerIsCanRecovery
-                imageresizerIsPrepareToScale:imageresizerIsPrepareToScale];
-    imageresizerView.edgeLineIsEnabled = configure.edgeLineIsEnabled;
-    imageresizerView.configure = configure;
-    return imageresizerView;
+    return [[self alloc] initWithConfigure:configure imageresizerIsCanRecovery:imageresizerIsCanRecovery imageresizerIsPrepareToScale:imageresizerIsPrepareToScale];
 }
 
-- (instancetype)initWithResizeImage:(UIImage *)resizeImage
-                              frame:(CGRect)frame
-                          frameType:(TFY_ImageresizerFrameType)frameType
-                     animationCurve:(TFY_AnimationCurve)animationCurve
-                         blurEffect:(UIBlurEffect *)blurEffect
-                            bgColor:(UIColor *)bgColor
-                          maskAlpha:(CGFloat)maskAlpha
-                        strokeColor:(UIColor *)strokeColor
-                      resizeWHScale:(CGFloat)resizeWHScale
-               isArbitrarilyInitial:(BOOL)isArbitrarilyInitial
-                      contentInsets:(UIEdgeInsets)contentInsets
-                isClockwiseRotation:(BOOL)isClockwiseRotation
-                        borderImage:(UIImage *)borderImage
-               borderImageRectInset:(CGPoint)borderImageRectInset
-                   maximumZoomScale:(CGFloat)maximumZoomScale
-                      isRoundResize:(BOOL)isRoundResize
-                      isShowMidDots:(BOOL)isShowMidDots
-                 isBlurWhenDragging:(BOOL)isBlurWhenDragging
-        isShowGridlinesWhenDragging:(BOOL)isShowGridlinesWhenDragging
-                          gridCount:(NSUInteger)gridCount
-                          maskImage:(UIImage *)maskImage
-                  isArbitrarilyMask:(BOOL)isArbitrarilyMask
-          imageresizerIsCanRecovery:(TFY_ImageresizerIsCanRecoveryBlock)imageresizerIsCanRecovery
-       imageresizerIsPrepareToScale:(TFY_ImageresizerIsPrepareToScaleBlock)imageresizerIsPrepareToScale {
+- (instancetype)initWithConfigure:(TFY_ImageresizerConfigure *)configure
+        imageresizerIsCanRecovery:(TFY_ImageresizerIsCanRecoveryBlock)imageresizerIsCanRecovery
+     imageresizerIsPrepareToScale:(TFY_ImageresizerIsPrepareToScaleBlock)imageresizerIsPrepareToScale {
     
+    CGRect frame = configure.viewFrame;
     NSAssert((frame.size.width != 0 && frame.size.height != 0), @"must have width and height.");
     
     if (self = [super initWithFrame:frame]) {
         self.clipsToBounds = YES;
         self.autoresizingMask = UIViewAutoresizingNone;
-        self.layer.backgroundColor = bgColor.CGColor;
+        self.backgroundColor = UIColor.clearColor;
         
-        _contentInsets = contentInsets;
-       
+        _containerView = [[UIView alloc] initWithFrame:self.bounds];
+        _containerView.layer.backgroundColor = configure.bgColor.CGColor;
+        [self addSubview:_containerView];
+        
+        _contentInsets = configure.contentInsets;
+        
         CGFloat contentWidth = (self.bounds.size.width - _contentInsets.left - _contentInsets.right);
         CGFloat contentHeight = (self.bounds.size.height - _contentInsets.top - _contentInsets.bottom);
         CGSize baseContentMaxSize = CGSizeMake(contentWidth, contentHeight);
@@ -317,60 +67,128 @@
                                 @(TFY_ImageresizerHorizontalLeftDirection),
                                 @(TFY_ImageresizerVerticalDownDirection),
                                 @(TFY_ImageresizerHorizontalRightDirection)] mutableCopy];
-        self.isClockwiseRotation = isClockwiseRotation;
+        self.isClockwiseRotation = configure.isClockwiseRotation;
         
-        self.animationCurve = animationCurve;
+        self.animationCurve = configure.animationCurve;
         
-        [self __setupScrollViewWithBaseContentMaxSize:baseContentMaxSize maxZoomScale:maximumZoomScale];
-        [self __setupImageViewWithImage:resizeImage];
+        _resizeObjWhScale = 1;
+        _isLoopPlaybackGIF = configure.isLoopPlaybackGIF;
         
-        TFY_ImageresizerFrame *frameView =
-        [[TFY_ImageresizerFrame alloc] initWithFrame:self.scrollView.frame
-                                    baseContentMaxSize:baseContentMaxSize
-                                             frameType:frameType
-                                        animationCurve:animationCurve
-                                            blurEffect:blurEffect
-                                               bgColor:bgColor
-                                             maskAlpha:maskAlpha
-                                           strokeColor:strokeColor
-                                         resizeWHScale:resizeWHScale
-                                  isArbitrarilyInitial:isArbitrarilyInitial
-                                            scrollView:self.scrollView
-                                             imageView:self.imageView
-                                           borderImage:borderImage
-                                  borderImageRectInset:borderImageRectInset
-                                         isRoundResize:isRoundResize
-                                         isShowMidDots:isShowMidDots
-                                    isBlurWhenDragging:isBlurWhenDragging
-                           isShowGridlinesWhenDragging:isShowGridlinesWhenDragging
-                                             gridCount:gridCount
-                                             maskImage:maskImage
-                                     isArbitrarilyMask:isArbitrarilyMask
-                             imageresizerIsCanRecovery:imageresizerIsCanRecovery
-                          imageresizerIsPrepareToScale:imageresizerIsPrepareToScale];
+        BOOL isVideo = NO;
+        if (configure.image) {
+            [self setImage:configure.image animated:NO];
+        } else if (configure.imageData) {
+            [self setImageData:configure.imageData animated:NO];
+        } else {
+            isVideo = YES;
+            
+            AVURLAsset *videoAsset;
+            if (configure.videoURL) {
+                videoAsset = [AVURLAsset assetWithURL:configure.videoURL];
+            } else if (configure.videoAsset) {
+                videoAsset = configure.videoAsset;
+            }
+            
+            NSAssert(videoAsset != nil, @"resizeObj cannot be nil.");
+            
+            if ([videoAsset statusOfValueForKey:@"duration" error:nil] != AVKeyValueStatusLoaded ||
+                [videoAsset statusOfValueForKey:@"tracks" error:nil] != AVKeyValueStatusLoaded) {
+                dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                [videoAsset loadValuesAsynchronouslyForKeys:@[@"duration", @"tracks"] completionHandler:^{
+                    dispatch_semaphore_signal(semaphore);
+                }];
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+            }
+            
+            AVAssetTrack *videoTrack = [videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject;
+            if (videoTrack) {
+                if (CGAffineTransformEqualToTransform(videoTrack.preferredTransform, CGAffineTransformIdentity)) {
+                    [self __createVideoObj:videoAsset isFixedOrientation:NO animated:NO];
+                } else {
+                    [self __fixOrientationVideo:videoAsset
+                                       animated:YES
+                                  fixErrorBlock:configure.fixErrorBlock
+                                  fixStartBlock:configure.fixStartBlock
+                               fixProgressBlock:configure.fixProgressBlock
+                               fixCompleteBlock:configure.fixCompleteBlock];
+                }
+            }
+        }
+        
+        [self __setupScrollViewWithBaseContentMaxSize:baseContentMaxSize maxZoomScale:configure.maximumZoomScale];
+        [self __setupImageView];
+        [self __updateImageViewFrame];
+        [self __updateImageViewImage:isVideo];
+        
+        if (_playerView) {
+            _playerView.frame = _imageView.bounds;
+            [_imageView addSubview:_playerView];
+        }
         
         __weak typeof(self) wSelf = self;
-        
-        frameView.isVerticalityMirror = ^BOOL{
+        TFY_ImageresizerFrame *frameView =
+        [[TFY_ImageresizerFrame alloc] initWithFrame:_scrollView.frame
+                                    baseContentMaxSize:baseContentMaxSize
+                                             frameType:configure.frameType
+                                        animationCurve:configure.animationCurve
+                                            blurEffect:configure.blurEffect
+                                               bgColor:configure.bgColor
+                                             maskAlpha:configure.maskAlpha
+                                           strokeColor:configure.strokeColor
+                                         resizeWHScale:configure.resizeWHScale
+                                         isRoundResize:configure.isRoundResize
+                                             maskImage:configure.maskImage
+                                         isArbitrarily:configure.isArbitrarily
+                                            scrollView:_scrollView
+                                             imageView:_imageView
+                                           borderImage:configure.borderImage
+                                  borderImageRectInset:configure.borderImageRectInset
+                                         isShowMidDots:configure.isShowMidDots
+                                    isBlurWhenDragging:configure.isBlurWhenDragging
+                               isShowGridlinesWhenIdle:configure.isShowGridlinesWhenIdle
+                           isShowGridlinesWhenDragging:configure.isShowGridlinesWhenDragging
+                                             gridCount:configure.gridCount
+                             imageresizerIsCanRecovery:imageresizerIsCanRecovery
+                          imageresizerIsPrepareToScale:imageresizerIsPrepareToScale
+                                   isVerticalityMirror:^BOOL{
             __strong typeof(wSelf) sSelf = wSelf;
             if (!sSelf) return NO;
             return sSelf.verticalityMirror;
-        };
-        
-        frameView.isHorizontalMirror = ^BOOL{
+        } isHorizontalMirror:^BOOL{
             __strong typeof(wSelf) sSelf = wSelf;
             if (!sSelf) return NO;
             return sSelf.horizontalMirror;
-        };
+        } resizeObjWhScale:^CGFloat{
+            __strong typeof(wSelf) sSelf = wSelf;
+            if (!sSelf) return 1;
+            return sSelf->_resizeObjWhScale;
+        }];
         
-        [self addSubview:frameView];
+        frameView.slider = _slider;
+        frameView.playerView = _playerView;
+        
+        [_containerView addSubview:frameView];
         _frameView = frameView;
+        
+        self.edgeLineIsEnabled = configure.edgeLineIsEnabled;
     }
     return self;
 }
 
+- (void)dealloc {
+    [self __removeProgressTimer];
+}
+
+#pragma mark - override method
+
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    _containerView.frame = (CGRect){CGPointZero, frame.size};
+}
+
 #pragma mark - private method
 
+#pragma mark UI设置
 - (void)__setupScrollViewWithBaseContentMaxSize:(CGSize)baseContentMaxSize maxZoomScale:(CGFloat)maxZoomScale {
     CGFloat w; // = hypot(self.bounds.size.width, self.bounds.size.height);
     CGFloat h;
@@ -396,54 +214,30 @@
     scrollView.clipsToBounds = NO;
     scrollView.scrollsToTop = NO;
     if (@available(iOS 11.0, *)) scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    [self addSubview:scrollView];
-    
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [scrollView addGestureRecognizer:doubleTap];
-    
+    [_containerView addSubview:scrollView];
     _scrollView = scrollView;
 }
-// 双击手势
-- (void)doubleTapAction:(UITapGestureRecognizer *)tap {
-    
-    self.currentScrollView = (UIScrollView *)tap.view;
-    CGFloat scale = self.currentScrollView.zoomScale == 1 ? self.configure.maximumZoomScale : 1;
-    CGRect zoomRect = [self zoomRectForScale:scale withCenter:[tap locationInView:tap.view]];
-    [self.currentScrollView zoomToRect:zoomRect animated:YES];
-}
 
-// 双击时的中心点
-- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center {
-    CGRect zoomRect;
-    zoomRect.size.height = self.currentScrollView.frame.size.height / scale;
-    zoomRect.size.width  = self.currentScrollView.frame.size.width  / scale;
-    zoomRect.origin.x    = center.x - (zoomRect.size.width  / 2.0);
-    zoomRect.origin.y    = center.y - (zoomRect.size.height / 2.0);
-    return zoomRect;
-}
-
-- (void)__setupImageViewWithImage:(UIImage *)image {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.userInteractionEnabled = YES;
-    [self.scrollView addSubview:imageView];
+- (void)__setupImageView {
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
+    [_scrollView addSubview:imageView];
     _imageView = imageView;
-    [self __updateImageViewFrameWithImage:image];
 }
 
-- (void)__updateImageViewFrameWithImage:(UIImage *)image {
-    NSAssert(image != nil, @"resizeImage cannot be nil.");
+- (void)__updateImageViewFrame {
     CGFloat maxWidth = self.frame.size.width - _contentInsets.left - _contentInsets.right;
     CGFloat maxHeight = self.frame.size.height - _contentInsets.top - _contentInsets.bottom;
     CGFloat imgViewW = maxWidth;
-    CGFloat imgViewH = imgViewW * (image.size.height / image.size.width);
+    CGFloat imgViewH = imgViewW / _resizeObjWhScale;
     if (imgViewH > maxHeight) {
         imgViewH = maxHeight;
-        imgViewW = imgViewH * (image.size.width / image.size.height);
+        imgViewW = imgViewH * _resizeObjWhScale;
     }
     CGRect imageViewBounds = CGRectMake(0, 0, imgViewW, imgViewH);
     self.imageView.bounds = imageViewBounds;
-    
+    self.playerView.frame = imageViewBounds;
     
     self.scrollView.layer.transform = CATransform3DIdentity;
     self.scrollView.minimumZoomScale = 1.0;
@@ -458,121 +252,606 @@
     self.scrollView.contentOffset = CGPointMake(-horInset, -verInset);
 }
 
-- (void)__updateSubviewLayouts:(UIImage *)image duration:(NSTimeInterval)duration {
+- (void)__updateSubviewLayouts:(NSTimeInterval)duration {
     if (self.horizontalMirror) [self setHorizontalMirror:NO animated:NO];
     if (self.verticalityMirror) [self setVerticalityMirror:NO animated:NO];
     self.directionIndex = 0;
-    [self __updateImageViewFrameWithImage:image];
+    [self __updateImageViewFrame];
     [self.frameView updateImageOriginFrameWithDuration:duration];
 }
 
-- (void)__changeMirror:(BOOL)isHorizontalMirror animated:(BOOL)isAnimated {
-    CATransform3D transform = self.layer.transform;
-    CGFloat diffValue;
-    if (isHorizontalMirror) {
-        transform = CATransform3DRotate(transform, (_horizontalMirror ? -M_PI : M_PI), 1, 0, 0);
-        diffValue = _horizontalMirror ? _contentInsets.bottom : _contentInsets.top;
+#pragma mark 更换裁剪元素
+- (void)__updateImageViewImage:(BOOL)isVideo {
+    if (isVideo) {
+        _imageView.image = nil;
     } else {
-        transform = CATransform3DRotate(transform, (_verticalityMirror ? -M_PI : M_PI), 0, 1, 0);
-        diffValue = _verticalityMirror ? _contentInsets.right : _contentInsets.left;
-    }
-    if (isAnimated) transform.m34 = 1.0 / 1200.0;
-    
-    CGRect afterFrame;
-    NSTimeInterval delay = [self.frameView willMirror:isHorizontalMirror diffValue:diffValue afterFrame:&afterFrame animated:isAnimated];
-    
-    __weak typeof(self) wSelf = self;
-    void (^animateBlock)(void) = ^{
-        __strong typeof(wSelf) sSelf = wSelf;
-        if (!sSelf) return;
-        sSelf.layer.transform = transform;
-        sSelf.scrollView.frame = sSelf.frameView.frame = afterFrame;
-    };
-    
-    if (isAnimated) {
-        // 做3d旋转时会遮盖住上层的控件，设置为-500即可
-        self.layer.zPosition = -500;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.45 delay:0 options:self->_animationOption animations:animateBlock completion:^(BOOL finished) {
-                [CATransaction begin];
-                [CATransaction setDisableActions:YES];
-                self.layer.zPosition = 0;
-                CATransform3D transform = self.layer.transform;
-                transform.m34 = 0;
-                self.layer.transform = transform;
-                [CATransaction commit];
-                [self.frameView mirrorDone];
-            }];
-        });
-    } else {
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        animateBlock();
-        [CATransaction commit];
-        [self.frameView mirrorDone];
-    }
-}
-
-- (void)__recovery:(NSTimeInterval)delay isUpdateMaskImage:(BOOL)isUpdateMaskImage {
-    self.directionIndex = 0;
-    
-    _horizontalMirror = NO;
-    _verticalityMirror = NO;
-    
-    CGFloat x = (self.baseContentMaxSize.width - self.scrollView.bounds.size.width) * 0.5 + _contentInsets.left;
-    CGFloat y = (self.baseContentMaxSize.height - self.scrollView.bounds.size.height) * 0.5 + _contentInsets.top;
-    CGRect frame = self.scrollView.bounds;
-    frame.origin.x = x;
-    frame.origin.y = y;
-    
-    // 做3d旋转时会遮盖住上层的控件，设置为-500即可
-    self.layer.zPosition = -500;
-    NSTimeInterval duration = 0.45;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:duration delay:0 options:self->_animationOption animations:^{
-            
-            self.layer.transform = CATransform3DIdentity;
-            self.scrollView.layer.transform = CATransform3DIdentity;
-            self.frameView.layer.transform = CATransform3DIdentity;
-            
-            self.scrollView.frame = frame;
-            self.frameView.frame = frame;
-            
-            [self.frameView recoveryWithDuration:duration];
-            
-        } completion:^(BOOL finished) {
-            [self.frameView recoveryDone:isUpdateMaskImage];
-            self.layer.zPosition = 0;
-        }];
-    });
-    
-}
-
-#pragma mark - puild method
-
-- (void)setResizeImage:(UIImage *)resizeImage animated:(BOOL)isAnimated transition:(UIViewAnimationTransition)transition {
-    NSAssert(resizeImage != nil, @"resizeImage cannot be nil.");
-    if (isAnimated) {
-        if (transition == UIViewAnimationTransitionNone) {
-            NSTimeInterval duration = 0.3;
-            [UIView transitionWithView:self.imageView duration:duration options:(_animationOption | UIViewAnimationOptionTransitionCrossDissolve) animations:^{
-                self.imageView.image = resizeImage;
-            } completion:nil];
-            [UIView animateWithDuration:duration delay:0 options:_animationOption animations:^{
-                [self __updateSubviewLayouts:resizeImage duration:duration];
-            } completion:nil];
+        if (_isGIF && !_isLoopPlaybackGIF && _image.images) {
+            _imageView.image = nil;
+            _imageView.image = _image.images.firstObject;
         } else {
-            NSTimeInterval duration = 0.45;
-            [UIView animateWithDuration:duration delay:0 options:_animationOption animations:^{
-                [UIView setAnimationTransition:transition forView:self.imageView cache:YES];
-                self.imageView.image = resizeImage;
-                [self __updateSubviewLayouts:resizeImage duration:duration];
-            } completion:nil];
+            _imageView.image = _image;
+        }
+    }
+}
+
+- (void)__updateImageView:(BOOL)isVideo animated:(BOOL)isAnimated {
+    if (!self.superview) {
+        if (isVideo) {
+            [_playerView removeFromSuperview];
+            _playerView = [[TFY_PlayerView alloc] initWithVideoObj:_videoObj];
+            if (_imageView) {
+                _playerView.frame = _imageView.bounds;
+                [_imageView addSubview:_playerView];
+            }
+            if (_frameView) _frameView.playerView = _playerView;
+            [self __removeImage];
+        } else {
+            if (_imageView) [self __updateImageViewImage:NO];
+            [self __removeVideoObj];
+        }
+        if (_slider) {
+            _slider.alpha = 1;
+            [self addSubview:_slider];
+            if (_frameView) {
+                CGRect sliderFrame = [_frameView convertRect:_frameView.imageresizerFrame toView:self];
+                [_slider setImageresizerFrame:sliderFrame isRoundResize:_frameView.isRoundResize];
+                _frameView.slider = _slider;
+            }
+        }
+        return;
+    }
+    
+    BOOL isGIF = _isGIF;
+    BOOL isLoopPlaybackGIF = _isLoopPlaybackGIF;
+    if (isAnimated) {
+        self.userInteractionEnabled = NO;
+        NSTimeInterval duration1 = 0.18;
+        NSTimeInterval duration2 = 0.35;
+        UIViewAnimationOptions options = _animationOption;
+        if ((isVideo && _image != nil) ||
+            (!isVideo && _videoObj != nil)) {
+            
+            if (self.slider && !self.slider.superview) {
+                CGRect sliderFrame = [self.frameView convertRect:self.frameView.imageresizerFrame toView:self];
+                [self.slider setImageresizerFrame:sliderFrame isRoundResize:self.frameView.isRoundResize];
+                self.slider.alpha = 0;
+                [self addSubview:self.slider];
+            }
+            
+            if (isVideo) {
+                [self.playerView removeFromSuperview];
+                TFY_PlayerView *playerView = [[TFY_PlayerView alloc] initWithVideoObj:_videoObj];
+                playerView.frame = self.imageView.bounds;
+                playerView.alpha = 0;
+                [self.imageView addSubview:playerView];
+                self.playerView = playerView;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [UIView animateWithDuration:duration1 delay:0 options:options animations:^{
+                        self.playerView.alpha = 1;
+                        self.slider.alpha = 1;
+                    } completion:^(BOOL finished) {
+                        [self __removeImage];
+                        self.frameView.playerView = self.playerView;
+                        self.frameView.slider = self.slider;
+                        [UIView animateWithDuration:duration2 delay:0 options:options animations:^{
+                            [self __updateSubviewLayouts:duration2];
+                        } completion:^(BOOL finished) {
+                            self.userInteractionEnabled = YES;
+                        }];
+                    }];
+                });
+            } else {
+                self.frameView.playerView = nil;
+                self.frameView.slider = (isGIF && !isLoopPlaybackGIF) ? self.slider : nil;
+                [self __updateImageViewImage:NO];
+                [UIView animateWithDuration:duration1 delay:0 options:options animations:^{
+                    self.playerView.alpha = 0;
+                    self.slider.alpha = (isGIF && !isLoopPlaybackGIF) ? 1 : 0;
+                } completion:^(BOOL finished) {
+                    [self __removeVideoObj];
+                    [UIView animateWithDuration:duration2 delay:0 options:options animations:^{
+                        [self __updateSubviewLayouts:duration2];
+                    } completion:^(BOOL finished) {
+                        self.userInteractionEnabled = YES;
+                    }];
+                }];
+            }
+            return;
+        }
+        
+        if (!isVideo) {
+            if (isGIF && !isLoopPlaybackGIF) {
+                if (self.slider && !self.slider.superview) {
+                    CGRect sliderFrame = [self.frameView convertRect:self.frameView.imageresizerFrame toView:self];
+                    [self.slider setImageresizerFrame:sliderFrame isRoundResize:self.frameView.isRoundResize];
+                    self.slider.alpha = 0;
+                    [self addSubview:self.slider];
+                }
+                self.frameView.slider = self.slider;
+            } else {
+                self.frameView.slider = nil;
+            }
+            [UIView transitionWithView:self.imageView duration:duration1 options:(options | UIViewAnimationOptionTransitionCrossDissolve) animations:^{
+                [self __updateImageViewImage:NO];
+                self.slider.alpha = (isGIF && !isLoopPlaybackGIF) ? 1 : 0;
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:duration2 delay:0 options:self->_animationOption animations:^{
+                    [self __updateSubviewLayouts:duration2];
+                } completion:^(BOOL finished) {
+                    [self __removeVideoObj];
+                    self.userInteractionEnabled = YES;
+                }];
+            }];
+        } else {
+            TFY_PlayerView *playerView = [[TFY_PlayerView alloc] initWithVideoObj:_videoObj];
+            playerView.frame = self.imageView.bounds;
+            playerView.alpha = 0;
+            [self.imageView addSubview:playerView];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:duration1 delay:0 options:options animations:^{
+                    playerView.alpha = 1;
+                } completion:^(BOOL finished) {
+                    [self.playerView removeFromSuperview];
+                    self.playerView = playerView;
+                    self.frameView.playerView = playerView;
+                    [UIView animateWithDuration:duration2 delay:0 options:options animations:^{
+                        [self __updateSubviewLayouts:duration2];
+                    } completion:^(BOOL finished) {
+                        [self __removeImage];
+                        self.userInteractionEnabled = YES;
+                    }];
+                }];
+            });
         }
     } else {
-        self.imageView.image = resizeImage;
-        [self __updateSubviewLayouts:resizeImage duration:0];
+        if (!isVideo) {
+            [self __removeVideoObj];
+            [self __updateImageViewImage:NO];
+        } else {
+            [self __removeImage];
+            
+            [self.playerView removeFromSuperview];
+            TFY_PlayerView *playerView = [[TFY_PlayerView alloc] initWithVideoObj:_videoObj];
+            playerView.frame = self.imageView.bounds;
+            [self.imageView addSubview:playerView];
+            self.playerView = playerView;
+            self.frameView.playerView = playerView;
+        }
+        if (_slider) {
+            self.frameView.slider = self.slider;
+            self.slider.alpha = 1;
+            [self addSubview:self.slider];
+        }
+        [self __updateSubviewLayouts:0];
     }
+}
+
+- (void)__removeImage {
+    _image = nil;
+    _imageData = nil;
+    _imageView.image = nil;
+    _isGIF = NO;
+}
+
+- (void)__removeVideoObj {
+    _videoObj = nil;
+    
+    _frameView.playerView = nil;
+    [_playerView removeFromSuperview];
+    _playerView = nil;
+    
+    if (!_isGIF || _isLoopPlaybackGIF) {
+        _frameView.slider = nil;
+        [_slider removeFromSuperview];
+        _slider = nil;
+    }
+}
+
+- (void)__setupSlider:(BOOL)isVideo {
+    float seconds = isVideo ? _videoObj.seconds : _image.duration;
+    if (_slider) {
+        [_slider resetSeconds:seconds second:0];
+    } else {
+        _slider = [TFY_ImageresizerSlider imageresizerSlider:seconds second:0];
+    }
+    __weak typeof(self) wSelf = self;
+    if (isVideo) {
+        _slider.sliderDragingBlock = ^(float second, float totalSecond) {
+            if (!wSelf) return;
+            __strong typeof(wSelf) sSelf = wSelf;
+            CMTime time = CMTimeMakeWithSeconds(second, sSelf.videoObj.timescale);
+            CMTime toleranceTime = sSelf.videoObj.toleranceTime;
+            [sSelf.playerView.player seekToTime:time toleranceBefore:toleranceTime toleranceAfter:toleranceTime];
+        };
+    } else {
+        _slider.sliderDragingBlock = ^(float second, float totalSecond) {
+            if (!wSelf) return;
+            __strong typeof(wSelf) sSelf = wSelf;
+            NSInteger maxIndex = sSelf.image.images.count - 1;
+            CGFloat floatIndex = (CGFloat)maxIndex * (second / totalSecond);
+            NSInteger index = (NSInteger)(floatIndex + 0.5);
+            if (index < 0) index = 0;
+            if (index > maxIndex) index = maxIndex;
+            sSelf.imageView.image = sSelf.image.images[index];
+        };
+    }
+}
+
+- (void)__createVideoObj:(AVURLAsset *)asset isFixedOrientation:(BOOL)isFixedOrientation animated:(BOOL)isAnimated {
+    TFY_ImageresizerTool *videoObj = [[TFY_ImageresizerTool alloc] initWithAsset:asset isFixedOrientation:isFixedOrientation];
+    _videoObj = videoObj;
+    _resizeObjWhScale = videoObj.videoSize.width / videoObj.videoSize.height;
+    _isGIF = NO;
+    [self __setupSlider:YES];
+    [self __updateImageView:YES animated:isAnimated];
+}
+
+#pragma mark 修正视频方向
+- (void)__fixOrientationVideo:(AVURLAsset *)videoAsset
+                     animated:(BOOL)isAnimated
+                fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+                fixStartBlock:(void(^)(void))fixStartBlock
+             fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+             fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    self.userInteractionEnabled = NO;
+    self.frameView.isPrepareToScale = YES;
+    __weak typeof(self) wSelf = self;
+    [TFY_ImageresizerTool fixOrientationVideoWithAsset:videoAsset fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+        if (wSelf) {
+            __strong typeof(wSelf) sSelf = wSelf;
+            [sSelf __removeProgressTimer];
+            sSelf.userInteractionEnabled = YES;
+            sSelf.frameView.isPrepareToScale = NO;
+        }
+        !fixErrorBlock ? : fixErrorBlock(cacheURL, reason);
+    } fixStartBlock:^(AVAssetExportSession *exportSession) {
+        if (wSelf) {
+            __strong typeof(wSelf) sSelf = wSelf;
+            [sSelf __addProgressTimer:fixProgressBlock exporterSession:exportSession];
+        }
+        !fixStartBlock ? : fixStartBlock();
+    } fixCompleteBlock:^(NSURL *cacheURL) {
+        if (wSelf) {
+            __strong typeof(wSelf) sSelf = wSelf;
+            [sSelf __removeProgressTimer];
+            [sSelf __createVideoObj:[AVURLAsset assetWithURL:cacheURL] isFixedOrientation:YES animated:isAnimated];
+            sSelf.userInteractionEnabled = YES;
+            sSelf.frameView.isPrepareToScale = NO;
+        }
+        !fixCompleteBlock ? : fixCompleteBlock(cacheURL);
+    }];
+}
+
+#pragma mark 监听视频导出进度的定时器
+- (void)__addProgressTimer:(TFY_ExportVideoProgressBlock)progressBlock exporterSession:(AVAssetExportSession *)exporterSession {
+    [self __removeProgressTimer];
+    if (progressBlock == nil || exporterSession == nil) return;
+    self.exporterSession = exporterSession;
+    self.progressBlock = progressBlock;
+    self.progressTimer = [NSTimer timerWithTimeInterval:0.02 target:[TFY_ImageresizerProxy proxyWithTarget:self] selector:@selector(__progressTimerHandle) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.progressTimer forMode:NSRunLoopCommonModes];
+}
+- (void)__removeProgressTimer {
+    [self.progressTimer invalidate];
+    self.progressTimer = nil;
+    self.progressBlock = nil;
+    self.exporterSession = nil;
+}
+- (void)__progressTimerHandle {
+    if (self.progressBlock && self.exporterSession) self.progressBlock(self.exporterSession.progress);
+}
+
+#pragma mark - 裁剪元素相关
+- (void)setImage:(UIImage *)image {
+    [self setImage:image animated:YES];
+}
+- (void)setImage:(UIImage *)image animated:(BOOL)isAnimated {
+    NSAssert(image != nil, @"image cannot be nil.");
+    if (image) {
+        _imageData = nil;
+        _image = image;
+        _resizeObjWhScale = _image.size.width / _image.size.height;
+        _isGIF = image.images.count > 1;
+        if (_isGIF && !_isLoopPlaybackGIF) [self __setupSlider:NO];
+        [self __updateImageView:NO animated:isAnimated];
+    }
+}
+
+- (void)setImageData:(NSData *)imageData {
+    [self setImageData:imageData animated:YES];
+}
+- (void)setImageData:(NSData *)imageData animated:(BOOL)isAnimated {
+    NSAssert(imageData != nil, @"imageData cannot be nil.");
+    if (imageData) {
+        _imageData = imageData;
+        _image = [UIImage imageWithData:imageData];
+        _resizeObjWhScale = _image.size.width / _image.size.height;
+        _isGIF = [TFY_ImageresizerTool isGIFData:imageData];
+        if (_isGIF) {
+            if (!_isLoopPlaybackGIF) {
+                [self __setupSlider:NO];
+                self.slider.userInteractionEnabled = NO;
+            }
+            __weak typeof(self) wSelf = self;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                UIImage *image = [TFY_ImageresizerTool decodeGIFData:imageData];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    __strong typeof(wSelf) sSelf = wSelf;
+                    if (!sSelf || sSelf->_imageData != imageData) {
+                        sSelf.slider.userInteractionEnabled = YES;
+                        return;
+                    }
+                    sSelf->_image = image;
+                    sSelf->_resizeObjWhScale = image.size.width / image.size.height;
+                    [sSelf __updateImageViewImage:NO];
+                    if (sSelf.slider) {
+                        [sSelf.slider resetSeconds:image.duration second:0];
+                        sSelf.slider.userInteractionEnabled = YES;
+                    }
+                });
+            });
+        }
+        [self __updateImageView:NO animated:isAnimated];
+    }
+}
+
+- (void)setVideoURL:(NSURL *)videoURL
+           animated:(BOOL)isAnimated
+      fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+      fixStartBlock:(void(^)(void))fixStartBlock
+   fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+   fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    NSAssert(videoURL != nil, @"videoURL cannot be nil.");
+    if (videoURL) {
+        [self setVideoAsset:[AVURLAsset assetWithURL:videoURL]
+                   animated:isAnimated
+              fixErrorBlock:fixErrorBlock
+              fixStartBlock:fixStartBlock
+           fixProgressBlock:fixProgressBlock
+           fixCompleteBlock:fixCompleteBlock];
+    }
+}
+- (NSURL *)videoURL {
+    return _videoObj.asset.URL;
+}
+
+- (void)setVideoAsset:(AVURLAsset *)videoAsset
+             animated:(BOOL)isAnimated
+        fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
+        fixStartBlock:(void(^)(void))fixStartBlock
+     fixProgressBlock:(TFY_ExportVideoProgressBlock)fixProgressBlock
+     fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock {
+    NSAssert(videoAsset != nil, @"videoAsset cannot be nil.");
+    if (videoAsset) {
+        if ([videoAsset statusOfValueForKey:@"duration" error:nil] != AVKeyValueStatusLoaded ||
+            [videoAsset statusOfValueForKey:@"tracks" error:nil] != AVKeyValueStatusLoaded) {
+            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+            [videoAsset loadValuesAsynchronouslyForKeys:@[@"duration", @"tracks"] completionHandler:^{
+                dispatch_semaphore_signal(semaphore);
+            }];
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        }
+        
+        AVAssetTrack *videoTrack = [videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject;
+        if (videoTrack) {
+            if (CGAffineTransformEqualToTransform(videoTrack.preferredTransform, CGAffineTransformIdentity)) {
+                [self __createVideoObj:videoAsset isFixedOrientation:NO animated:isAnimated];
+            } else {
+                [self __fixOrientationVideo:videoAsset
+                                   animated:isAnimated
+                              fixErrorBlock:fixErrorBlock
+                              fixStartBlock:fixStartBlock
+                           fixProgressBlock:fixProgressBlock
+                           fixCompleteBlock:fixCompleteBlock];
+            }
+        }
+    }
+}
+- (AVURLAsset *)videoAsset {
+    return _videoObj.asset;
+}
+
+- (void)setIsLoopPlaybackGIF:(BOOL)isLoopPlaybackGIF {
+    if (_isLoopPlaybackGIF == isLoopPlaybackGIF) return;
+    _isLoopPlaybackGIF = isLoopPlaybackGIF;
+    if (!_isGIF) return;
+    if (isLoopPlaybackGIF) {
+        TFY_ImageresizerSlider *slider = self.slider;
+        self.frameView.slider = nil;
+        self.slider = nil;
+        if (slider) {
+            [UIView animateWithDuration:0.2 animations:^{
+                slider.alpha = 0;
+            } completion:^(BOOL finished) {
+                [slider removeFromSuperview];
+            }];
+        }
+    } else {
+        [self __setupSlider:NO];
+        CGRect sliderFrame = [self.frameView convertRect:self.frameView.imageresizerFrame toView:self];
+        [self.slider setImageresizerFrame:sliderFrame isRoundResize:_frameView.isRoundResize];
+        self.slider.alpha = 0;
+        [self addSubview:self.slider];
+        [UIView animateWithDuration:0.2 animations:^{
+            self.slider.alpha = 1;
+        }];
+        self.frameView.slider = self.slider;
+    }
+    [self __updateImageViewImage:NO];
+}
+
+#pragma mark - 裁剪宽高比相关
+- (void)setInitialResizeWHScale:(CGFloat)initialResizeWHScale {
+    self.frameView.initialResizeWHScale = initialResizeWHScale;
+}
+- (CGFloat)initialResizeWHScale {
+    return _frameView.initialResizeWHScale;
+}
+
+- (void)setResizeWHScale:(CGFloat)resizeWHScale {
+    [self setResizeWHScale:resizeWHScale isToBeArbitrarily:(resizeWHScale <= 0) animated:YES];
+}
+- (void)setResizeWHScale:(CGFloat)resizeWHScale isToBeArbitrarily:(BOOL)isToBeArbitrarily animated:(BOOL)isAnimated {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪宽高比暂不可设置，此时应该将设置按钮设为不可点或隐藏");
+        return;
+    }
+    [self.frameView setResizeWHScale:resizeWHScale isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
+}
+- (CGFloat)resizeWHScale {
+    CGFloat resizeWHScale = _frameView.resizeWHScale;
+    if (resizeWHScale > 0) {
+        if (_frameView.rotationDirection == TFY_ImageresizerHorizontalLeftDirection ||
+            _frameView.rotationDirection == TFY_ImageresizerHorizontalRightDirection) {
+            resizeWHScale = 1.0 / resizeWHScale;
+        }
+    }
+    return resizeWHScale;
+}
+
+- (void)setIsRoundResize:(BOOL)isRoundResize {
+    [self setIsRoundResize:isRoundResize isToBeArbitrarily:(isRoundResize ? NO : self.isArbitrarily) animated:YES];
+}
+- (void)setIsRoundResize:(BOOL)isRoundResize isToBeArbitrarily:(BOOL)isToBeArbitrarily animated:(BOOL)isAnimated {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪宽高比暂不可设置，此时应该将设置按钮设为不可点或隐藏");
+        return;
+    }
+    [self.frameView setIsRoundResize:isRoundResize isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
+}
+- (BOOL)isRoundResize {
+    return _frameView.isRoundResize;
+}
+
+- (void)setMaskImage:(UIImage *)maskImage {
+    [self setMaskImage:maskImage isToBeArbitrarily:(maskImage ? NO : self.isArbitrarily) animated:YES];
+}
+- (void)setMaskImage:(UIImage *)maskImage isToBeArbitrarily:(BOOL)isToBeArbitrarily animated:(BOOL)isAnimated {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪宽高比暂不可设置，此时应该将设置按钮设为不可点或隐藏");
+        return;
+    }
+    [self.frameView setMaskImage:maskImage isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
+}
+- (UIImage *)maskImage {
+    return _frameView.maskImage;
+}
+
+- (void)setIsArbitrarily:(BOOL)isArbitrarily {
+    [self setIsArbitrarily:isArbitrarily animated:YES];
+}
+- (void)setIsArbitrarily:(BOOL)isArbitrarily animated:(BOOL)isAnimated {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪宽高比暂不可设置，此时应该将设置按钮设为不可点或隐藏");
+        return;
+    }
+    [self.frameView setIsArbitrarily:isArbitrarily animated:isAnimated];
+}
+- (BOOL)isArbitrarily {
+    return _frameView.isArbitrarily;
+}
+
+- (CGFloat)imageresizerWHScale {
+    return _frameView.imageresizerWHScale;
+}
+
+#pragma mark - 裁剪框样式相关
+- (void)setFrameType:(TFY_ImageresizerFrameType)frameType {
+    [self.frameView updateFrameType:frameType];
+}
+- (TFY_ImageresizerFrameType)frameType {
+    return _frameView.frameType;
+}
+
+- (void)setBorderImage:(UIImage *)borderImage {
+    self.frameView.borderImage = borderImage;
+}
+- (UIImage *)borderImage {
+    return _frameView.borderImage;
+}
+
+- (void)setBorderImageRectInset:(CGPoint)borderImageRectInset {
+    self.frameView.borderImageRectInset = borderImageRectInset;
+}
+- (CGPoint)borderImageRectInset {
+    return _frameView.borderImageRectInset;
+}
+
+- (void)setIsShowMidDots:(BOOL)isShowMidDots {
+    self.frameView.isShowMidDots = isShowMidDots;
+}
+- (BOOL)isShowMidDots {
+    return _frameView.isShowMidDots;
+}
+
+- (void)setIsBlurWhenDragging:(BOOL)isBlurWhenDragging {
+    self.frameView.isBlurWhenDragging = isBlurWhenDragging;
+}
+- (BOOL)isBlurWhenDragging {
+    return _frameView.isBlurWhenDragging;
+}
+
+- (void)setIsShowGridlinesWhenIdle:(BOOL)isShowGridlinesWhenIdle {
+    self.frameView.isShowGridlinesWhenIdle = isShowGridlinesWhenIdle;
+}
+
+- (BOOL)isShowGridlinesWhenIdle {
+    return _frameView.isShowGridlinesWhenIdle;
+}
+
+- (void)setIsShowGridlinesWhenDragging:(BOOL)isShowGridlinesWhenDragging {
+    self.frameView.isShowGridlinesWhenDragging = isShowGridlinesWhenDragging;
+}
+- (BOOL)isShowGridlinesWhenDragging {
+    return _frameView.isShowGridlinesWhenDragging;
+}
+
+- (void)setGridCount:(NSUInteger)gridCount {
+    self.frameView.gridCount = gridCount;
+}
+- (NSUInteger)gridCount {
+    return _frameView.gridCount;
+}
+
+- (void)setIsLockResizeFrame:(BOOL)isLockResizeFrame {
+    self.frameView.panGR.enabled = !isLockResizeFrame;
+}
+- (BOOL)isLockResizeFrame {
+    return !_frameView.panGR.enabled;
+}
+
+- (void)setEdgeLineIsEnabled:(BOOL)edgeLineIsEnabled {
+    _edgeLineIsEnabled = edgeLineIsEnabled;
+    self.frameView.edgeLineIsEnabled = edgeLineIsEnabled;
+}
+
+#pragma mark - 裁剪框、背景、遮罩颜色相关
+- (void)setBlurEffect:(UIBlurEffect *)blurEffect {
+    [self.frameView setupStrokeColor:self.strokeColor blurEffect:blurEffect bgColor:self.bgColor maskAlpha:self.maskAlpha animated:YES];
+}
+- (UIBlurEffect *)blurEffect {
+    return _frameView.blurEffect;
+}
+
+- (void)setBgColor:(UIColor *)bgColor {
+    [self.frameView setupStrokeColor:self.strokeColor blurEffect:self.blurEffect bgColor:bgColor maskAlpha:self.maskAlpha animated:YES];
+}
+- (UIColor *)bgColor {
+    return _frameView.bgColor;
+}
+
+- (void)setMaskAlpha:(CGFloat)maskAlpha {
+    [self.frameView setupStrokeColor:self.strokeColor blurEffect:self.blurEffect bgColor:self.bgColor maskAlpha:maskAlpha animated:YES];
+}
+- (CGFloat)maskAlpha {
+    return _frameView.maskAlpha;
+}
+
+- (void)setStrokeColor:(UIColor *)strokeColor {
+    [self.frameView setupStrokeColor:strokeColor blurEffect:self.blurEffect bgColor:self.bgColor maskAlpha:self.maskAlpha animated:YES];
+}
+- (UIColor *)strokeColor {
+    return _frameView.strokeColor;
 }
 
 - (void)setupStrokeColor:(UIColor *)strokeColor
@@ -587,57 +866,36 @@
                             animated:isAnimated];
 }
 
-- (void)setResizeWHScale:(CGFloat)resizeWHScale isToBeArbitrarily:(BOOL)isToBeArbitrarily animated:(BOOL)isAnimated {
-    if (self.frameView.isPrepareToScale) {
-        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪宽高比暂不可设置，此时应该将设置按钮设为不可点或隐藏");
-        return;
+#pragma mark - 旋转、镜像翻转相关
+- (void)setDirectionIndex:(NSInteger)directionIndex {
+    NSInteger maxIndex = self.allDirections.count - 1;
+    NSInteger minIndex = 0;
+    if (directionIndex < minIndex) {
+        directionIndex = maxIndex;
+    } else if (directionIndex > maxIndex) {
+        directionIndex = minIndex;
     }
-    [self.frameView setResizeWHScale:resizeWHScale isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
+    _directionIndex = directionIndex;
 }
 
-- (void)roundResize:(BOOL)isAnimated {
-    [self.frameView roundResize:isAnimated];
-}
-
-- (BOOL)isRoundResizing {
-    return self.frameView.isRoundResizing;
-}
-
-- (void)setVerticalityMirror:(BOOL)verticalityMirror animated:(BOOL)isAnimated {
-    if (self.frameView.isPrepareToScale) {
-        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，镜像功能暂不可用，此时应该将镜像按钮设为不可点或隐藏");
-        return;
+- (void)setIsClockwiseRotation:(BOOL)isClockwiseRotation {
+    if (_isClockwiseRotation == isClockwiseRotation) return;
+    _isClockwiseRotation = isClockwiseRotation;
+    [self.allDirections exchangeObjectAtIndex:1 withObjectAtIndex:3];
+    if (self.directionIndex == 1) {
+        self.directionIndex = 3;
+    } else if (self.directionIndex == 3) {
+        self.directionIndex = 1;
     }
-    if (_verticalityMirror == verticalityMirror) return;
-    _verticalityMirror = verticalityMirror;
-    [self __changeMirror:NO animated:isAnimated];
 }
 
-- (void)setHorizontalMirror:(BOOL)horizontalMirror animated:(BOOL)isAnimated {
-    if (self.frameView.isPrepareToScale) {
-        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，镜像功能暂不可用，此时应该将镜像按钮设为不可点或隐藏");
-        return;
-    }
-    if (_horizontalMirror == horizontalMirror) return;
-    _horizontalMirror = horizontalMirror;
-    [self __changeMirror:YES animated:isAnimated];
-}
-
-- (void)setIsPreview:(BOOL)isPreview animated:(BOOL)isAnimated {
-    [self.frameView setIsPreview:isPreview animated:isAnimated];
-    self.scrollView.userInteractionEnabled = !isPreview;
-}
-
-- (void)updateResizeImage:(UIImage *)resizeImage {
-    self.imageView.image = resizeImage;
-    [self __updateSubviewLayouts:resizeImage duration:0];
-}
-
+#pragma mark 旋转
 - (void)rotation {
     if (self.frameView.isPrepareToScale) {
         TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，旋转功能暂不可用，此时应该将旋转按钮设为不可点或隐藏");
         return;
     }
+    
     BOOL isNormal = _verticalityMirror == _horizontalMirror;
     
     CGFloat angle = (self.isClockwiseRotation ? 1.0 : -1.0) * (isNormal ? 1.0 : -1.0) * M_PI_2;
@@ -659,83 +917,119 @@
             [self.frameView rotationDone];
         }];
     });
-    
 }
 
-- (void)recoveryToRoundResize {
-    if (!self.frameView.isCanRecovery) {
-        TFY_IRLog(@"TFY__tip: 已经是初始状态，不需要重置");
-        return;
-    }
-    NSTimeInterval delay = [self.frameView willRecoveryToRoundResize:YES];
-    [self __recovery:delay isUpdateMaskImage:NO];
+#pragma mark 镜像翻转
+- (void)setVerticalityMirror:(BOOL)verticalityMirror {
+    [self setVerticalityMirror:verticalityMirror animated:YES];
 }
-
-- (void)recoveryByCurrentMaskImage {
-    [self recoveryToMaskImage:self.maskImage];
-}
-
-- (void)recoveryToMaskImage:(UIImage *)maskImage {
-    NSTimeInterval delay;
-    BOOL isUpdateMaskImage = NO;
-    if (maskImage == nil) {
-        delay = [self.frameView willRecoveryToResizeWHScale:self.initialResizeWHScale isToBeArbitrarily:NO animated:YES];
-    } else {
-        isUpdateMaskImage = self.maskImage != maskImage;
-        delay = [self.frameView willRecoveryToMaskImage:maskImage animated:YES];
-    }
-    [self __recovery:delay isUpdateMaskImage:isUpdateMaskImage];
-}
-
-- (void)recoveryByCurrentResizeWHScale {
-    [self recoveryByCurrentResizeWHScale:NO];
-}
-
-- (void)recoveryByCurrentResizeWHScale:(BOOL)isToBeArbitrarily {
-    if (!self.frameView.isCanRecovery) {
-        TFY_IRLog(@"TFY__tip: 已经是初始状态，不需要重置");
-        return;
-    }
-    NSTimeInterval delay = [self.frameView willRecoveryToResizeWHScale:self.resizeWHScale isToBeArbitrarily:isToBeArbitrarily animated:YES];
-    [self __recovery:delay isUpdateMaskImage:NO];
-}
-
-- (void)recoveryByInitialResizeWHScale:(BOOL)isToBeArbitrarily {
-    if (!self.frameView.isCanRecovery) {
-        TFY_IRLog(@"TFY__tip: 已经是初始状态，不需要重置");
-        return;
-    }
-    NSTimeInterval delay = [self.frameView willRecoveryToResizeWHScale:self.initialResizeWHScale isToBeArbitrarily:isToBeArbitrarily animated:YES];
-    [self __recovery:delay isUpdateMaskImage:NO];
-}
-
-- (void)recoveryToTargetResizeWHScale:(CGFloat)targetResizeWHScale isToBeArbitrarily:(BOOL)isToBeArbitrarily {
-    if (!self.frameView.isCanRecovery) {
-        TFY_IRLog(@"TFY__tip: 已经是初始状态，不需要重置");
-        return;
-    }
-    NSTimeInterval delay = [self.frameView willRecoveryToResizeWHScale:targetResizeWHScale isToBeArbitrarily:isToBeArbitrarily animated:YES];
-    [self __recovery:delay isUpdateMaskImage:NO];
-}
-
-- (void)originImageresizerWithComplete:(void (^)(UIImage *))complete {
-    [self imageresizerWithComplete:complete compressScale:1.0];
-}
-
-- (void)imageresizerWithComplete:(void (^)(UIImage *))complete compressScale:(CGFloat)compressScale {
+- (void)setVerticalityMirror:(BOOL)verticalityMirror animated:(BOOL)isAnimated {
     if (self.frameView.isPrepareToScale) {
-        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
-        !complete ? : complete(nil);
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，镜像功能暂不可用，此时应该将镜像按钮设为不可点或隐藏");
         return;
     }
-    if (compressScale <= 0) {
-        TFY_IRLog(@"TFY__tip: 压缩比例不能小于或等于0");
-        !complete ? : complete(nil);
-        return;
-    }
-    [self.frameView imageresizerWithComplete:complete compressScale:compressScale];
+    if (_verticalityMirror == verticalityMirror) return;
+    _verticalityMirror = verticalityMirror;
+    [self __changeMirror:NO animated:isAnimated];
 }
 
+- (void)setHorizontalMirror:(BOOL)horizontalMirror {
+    [self setHorizontalMirror:horizontalMirror animated:YES];
+}
+- (void)setHorizontalMirror:(BOOL)horizontalMirror animated:(BOOL)isAnimated {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，镜像功能暂不可用，此时应该将镜像按钮设为不可点或隐藏");
+        return;
+    }
+    if (_horizontalMirror == horizontalMirror) return;
+    _horizontalMirror = horizontalMirror;
+    [self __changeMirror:YES animated:isAnimated];
+}
+
+- (void)__changeMirror:(BOOL)isHorizontalMirror animated:(BOOL)isAnimated {
+    CATransform3D transform = self.containerView.layer.transform;
+    CGFloat diffValue;
+    if (isHorizontalMirror) {
+        transform = CATransform3DRotate(transform, (_horizontalMirror ? -M_PI : M_PI), 1, 0, 0);
+        diffValue = _horizontalMirror ? _contentInsets.bottom : _contentInsets.top;
+    } else {
+        transform = CATransform3DRotate(transform, (_verticalityMirror ? -M_PI : M_PI), 0, 1, 0);
+        diffValue = _verticalityMirror ? _contentInsets.right : _contentInsets.left;
+    }
+    if (isAnimated) transform.m34 = 1.0 / 1200.0;
+    
+    CGRect afterFrame;
+    NSTimeInterval delay = [self.frameView willMirror:isHorizontalMirror diffValue:diffValue afterFrame:&afterFrame animated:isAnimated];
+    
+    __weak typeof(self) wSelf = self;
+    void (^animateBlock)(void) = ^{
+        __strong typeof(wSelf) sSelf = wSelf;
+        if (!sSelf) return;
+        sSelf.containerView.layer.transform = transform;
+        sSelf.scrollView.frame = sSelf.frameView.frame = afterFrame;
+    };
+    
+    if (isAnimated) {
+        // 做3d旋转时会遮盖住上层的控件，设置为-500即可
+        self.containerView.layer.zPosition = -500;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.45 delay:0 options:self->_animationOption animations:animateBlock completion:^(BOOL finished) {
+                [CATransaction begin];
+                [CATransaction setDisableActions:YES];
+                self.containerView.layer.zPosition = 0;
+                CATransform3D transform = self.containerView.layer.transform;
+                transform.m34 = 0;
+                self.containerView.layer.transform = transform;
+                [CATransaction commit];
+                [self.frameView mirrorDone];
+            }];
+        });
+    } else {
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+        animateBlock();
+        [CATransaction commit];
+        [self.frameView mirrorDone];
+    }
+}
+
+#pragma mark - 其他
+- (CGSize)baseContentMaxSize {
+    return _frameView.baseContentMaxSize;
+}
+
+- (void)setAnimationCurve:(TFY_AnimationCurve)animationCurve {
+    _animationCurve = animationCurve;
+    _frameView.animationCurve = animationCurve;
+    switch (animationCurve) {
+        case TFY_AnimationCurveEaseInOut:
+            _animationOption = UIViewAnimationOptionCurveEaseInOut;
+            break;
+        case TFY_AnimationCurveEaseIn:
+            _animationOption = UIViewAnimationOptionCurveEaseIn;
+            break;
+        case TFY_AnimationCurveEaseOut:
+            _animationOption = UIViewAnimationOptionCurveEaseOut;
+            break;
+        case TFY_AnimationCurveLinear:
+            _animationOption = UIViewAnimationOptionCurveLinear;
+            break;
+    }
+}
+
+#pragma mark 预览
+- (void)setIsPreview:(BOOL)isPreview {
+    [self setIsPreview:isPreview animated:YES];
+}
+- (void)setIsPreview:(BOOL)isPreview animated:(BOOL)isAnimated {
+    [self.frameView setIsPreview:isPreview animated:isAnimated];
+    self.scrollView.userInteractionEnabled = !isPreview;
+}
+- (BOOL)isPreview {
+    return _frameView.isPreview;
+}
+
+#pragma mark 更新视图整体Frame，可作用于横竖屏切换
 - (void)updateFrame:(CGRect)frame contentInsets:(UIEdgeInsets)contentInsets duration:(NSTimeInterval)duration {
     if (CGSizeEqualToSize(self.bounds.size, frame.size)) {
         if (UIEdgeInsetsEqualToEdgeInsets(_contentInsets, contentInsets)) {
@@ -745,6 +1039,472 @@
     }
     _contentInsets = contentInsets;
     [self.frameView superViewUpdateFrame:frame contentInsets:contentInsets duration:duration];
+}
+
+#pragma mark - 重置
+- (void)recovery {
+    [self __recoveryToResizeWHScale:self.resizeWHScale
+                    orToRoundResize:self.isRoundResize
+                      orToMaskImage:self.maskImage
+                  isToBeArbitrarily:self.isArbitrarily];
+}
+
+- (void)recoveryByInitialResizeWHScale {
+    [self __recoveryToResizeWHScale:self.initialResizeWHScale
+                    orToRoundResize:NO
+                      orToMaskImage:nil
+                  isToBeArbitrarily:self.isArbitrarily];
+}
+- (void)recoveryByInitialResizeWHScale:(BOOL)isToBeArbitrarily {
+    [self __recoveryToResizeWHScale:self.initialResizeWHScale
+                    orToRoundResize:NO
+                      orToMaskImage:nil
+                  isToBeArbitrarily:isToBeArbitrarily];
+}
+- (void)recoveryByCurrentResizeWHScale {
+    [self __recoveryToResizeWHScale:self.resizeWHScale
+                    orToRoundResize:NO
+                      orToMaskImage:nil
+                  isToBeArbitrarily:self.isArbitrarily];
+}
+- (void)recoveryByCurrentResizeWHScale:(BOOL)isToBeArbitrarily {
+    [self __recoveryToResizeWHScale:self.resizeWHScale
+                    orToRoundResize:NO
+                      orToMaskImage:nil
+                  isToBeArbitrarily:isToBeArbitrarily];
+}
+- (void)recoveryToTargetResizeWHScale:(CGFloat)targetResizeWHScale isToBeArbitrarily:(BOOL)isToBeArbitrarily {
+    [self __recoveryToResizeWHScale:targetResizeWHScale
+                    orToRoundResize:NO
+                      orToMaskImage:nil
+                  isToBeArbitrarily:isToBeArbitrarily];
+}
+
+- (void)recoveryToRoundResize {
+    [self __recoveryToResizeWHScale:1
+                    orToRoundResize:YES
+                      orToMaskImage:nil
+                  isToBeArbitrarily:self.isArbitrarily];
+}
+- (void)recoveryToRoundResize:(BOOL)isToBeArbitrarily {
+    [self __recoveryToResizeWHScale:1
+                    orToRoundResize:YES
+                      orToMaskImage:nil
+                  isToBeArbitrarily:isToBeArbitrarily];
+}
+
+- (void)recoveryByCurrentMaskImage {
+    [self __recoveryToResizeWHScale:0
+                    orToRoundResize:NO
+                      orToMaskImage:self.maskImage
+                  isToBeArbitrarily:self.isArbitrarily];
+}
+- (void)recoveryByCurrentMaskImage:(BOOL)isToBeArbitrarily {
+    [self __recoveryToResizeWHScale:0
+                    orToRoundResize:NO
+                      orToMaskImage:self.maskImage
+                  isToBeArbitrarily:isToBeArbitrarily];
+}
+- (void)recoveryToMaskImage:(UIImage *)maskImage isToBeArbitrarily:(BOOL)isToBeArbitrarily{
+    [self __recoveryToResizeWHScale:0
+                    orToRoundResize:NO
+                      orToMaskImage:maskImage
+                  isToBeArbitrarily:isToBeArbitrarily];
+}
+
+- (void)__recoveryToResizeWHScale:(CGFloat)resizeWHScale
+                  orToRoundResize:(BOOL)isRoundResize
+                    orToMaskImage:(UIImage *)maskImage
+                isToBeArbitrarily:(BOOL)isToBeArbitrarily {
+    BOOL isCanRecovery = (maskImage != nil || self.maskImage != nil) && self.maskImage != maskImage;
+    if (!isCanRecovery) isCanRecovery = self.frameView.isCanRecovery;
+    if (!isCanRecovery) {
+        TFY_IRLog(@"TFY__tip: 已经是初始状态，不需要重置");
+        return;
+    }
+    
+    BOOL isUpdateMaskImage = maskImage != nil && self.maskImage != maskImage;
+
+    NSTimeInterval delay = [self.frameView willRecoveryToResizeWHScale:resizeWHScale orToRoundResize:isRoundResize orToMaskImage:maskImage isToBeArbitrarily:isToBeArbitrarily animated:YES];
+    
+    self.directionIndex = 0;
+    
+    _horizontalMirror = NO;
+    _verticalityMirror = NO;
+    
+    CGFloat x = (self.baseContentMaxSize.width - self.scrollView.bounds.size.width) * 0.5 + _contentInsets.left;
+    CGFloat y = (self.baseContentMaxSize.height - self.scrollView.bounds.size.height) * 0.5 + _contentInsets.top;
+    CGRect frame = self.scrollView.bounds;
+    frame.origin.x = x;
+    frame.origin.y = y;
+    
+    // 做3d旋转时会遮盖住上层的控件，设置为-500即可
+    self.containerView.layer.zPosition = -500;
+    NSTimeInterval duration = 0.45;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:duration delay:0 options:self->_animationOption animations:^{
+            
+            self.containerView.layer.transform = CATransform3DIdentity;
+            self.scrollView.layer.transform = CATransform3DIdentity;
+            self.frameView.layer.transform = CATransform3DIdentity;
+            
+            self.scrollView.frame = frame;
+            self.frameView.frame = frame;
+            
+            [self.frameView recoveryWithDuration:duration];
+            
+        } completion:^(BOOL finished) {
+            [self.frameView recoveryDone:isUpdateMaskImage];
+            self.containerView.layer.zPosition = 0;
+        }];
+    });
+}
+
+#pragma mark - 裁剪
+
+#pragma mark 裁剪图片
+// 原图尺寸裁剪图片
+- (void)cropPictureWithCacheURL:(NSURL *)cacheURL
+                     errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                  completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropPictureWithCompressScale:1
+                              cacheURL:cacheURL
+                            errorBlock:errorBlock
+                         completeBlock:completeBlock];
+}
+
+// 自定义压缩比例裁剪图片
+- (void)cropPictureWithCompressScale:(CGFloat)compressScale
+                            cacheURL:(NSURL *)cacheURL
+                     errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                   completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (compressScale <= 0) {
+        TFY_IRLog(@"TFY__tip: 压缩比例不能小于或等于0");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (self.videoObj || self.isGIF) {
+        TFY_IRLog(@"TFY__tip: 当前裁剪元素非图片");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (self.imageData) {
+        [TFY_ImageresizerTool cropPictureWithImageData:self.imageData maskImage:self.frameView.maskImage configure:self.frameView.currentCropConfigure compressScale:compressScale cacheURL:cacheURL errorBlock:errorBlock completeBlock:completeBlock];
+    } else {
+        [TFY_ImageresizerTool cropPictureWithImage:self.image maskImage:self.frameView.maskImage configure:self.frameView.currentCropConfigure compressScale:compressScale cacheURL:cacheURL errorBlock:errorBlock completeBlock:completeBlock];
+    }
+}
+
+#pragma mark 裁剪GIF
+- (void)cropGIFWithCacheURL:(NSURL *)cacheURL
+                     errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+              completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropGIFWithCompressScale:1
+                    isReverseOrder:NO
+                              rate:1
+                          cacheURL:cacheURL
+                        errorBlock:errorBlock
+                     completeBlock:completeBlock];
+}
+
+- (void)cropGIFWithCompressScale:(CGFloat)compressScale
+                        cacheURL:(NSURL *)cacheURL
+                      errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                   completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropGIFWithCompressScale:compressScale
+                    isReverseOrder:NO
+                              rate:1
+                          cacheURL:cacheURL
+                        errorBlock:errorBlock
+                     completeBlock:completeBlock];
+}
+
+- (void)cropGIFWithCompressScale:(CGFloat)compressScale
+                  isReverseOrder:(BOOL)isReverseOrder
+                            rate:(float)rate
+                        cacheURL:(NSURL *)cacheURL
+                      errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                   completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (compressScale <= 0) {
+        TFY_IRLog(@"TFY__tip: 压缩比例不能小于或等于0");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (self.videoObj || !self.isGIF) {
+        TFY_IRLog(@"TFY__tip: 当前裁剪元素非GIF");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (self.imageData) {
+        [TFY_ImageresizerTool cropGIFWithGifData:self.imageData
+                                isReverseOrder:isReverseOrder
+                                          rate:rate
+                                     maskImage:self.frameView.maskImage
+                                     configure:self.frameView.currentCropConfigure
+                                 compressScale:compressScale
+                                      cacheURL:cacheURL
+                                    errorBlock:errorBlock
+                                 completeBlock:completeBlock];
+    } else {
+        [TFY_ImageresizerTool cropGIFWithGifImage:self.image
+                                 isReverseOrder:isReverseOrder
+                                           rate:rate
+                                      maskImage:self.frameView.maskImage
+                                      configure:self.frameView.currentCropConfigure
+                                  compressScale:compressScale
+                                       cacheURL:cacheURL
+                                     errorBlock:errorBlock
+                                  completeBlock:completeBlock];
+    }
+}
+
+- (void)cropGIFCurrentIndexWithCacheURL:(NSURL *)cacheURL
+                               errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                          completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropGIFCurrentIndexWithCompressScale:1
+                                      cacheURL:cacheURL
+                                    errorBlock:errorBlock
+                                 completeBlock:completeBlock];
+}
+
+- (void)cropGIFCurrentIndexWithCompressScale:(CGFloat)compressScale
+                                     cacheURL:(NSURL *)cacheURL
+                                    errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                               completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    NSUInteger index = 0;
+    if (self.isLoopPlaybackGIF == NO) {
+        NSInteger maxIndex = self.image.images.count - 1;
+        CGFloat floatIndex = (CGFloat)maxIndex * (self.slider.second / self.slider.seconds);
+        index = (NSInteger)(floatIndex + 0.5);
+        if (index < 0) index = 0;
+        if (index > maxIndex) index = maxIndex;
+    }
+    [self cropGIFWithIndex:index
+             compressScale:compressScale
+                  cacheURL:cacheURL
+                errorBlock:errorBlock
+             completeBlock:completeBlock];
+}
+
+- (void)cropGIFWithIndex:(NSUInteger)index
+            compressScale:(CGFloat)compressScale
+                cacheURL:(NSURL *)cacheURL
+              errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+           completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (compressScale <= 0) {
+        TFY_IRLog(@"TFY__tip: 压缩比例不能小于或等于0");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (self.videoObj || !self.isGIF) {
+        TFY_IRLog(@"TFY__tip: 当前裁剪元素非GIF");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (self.imageData) {
+        [TFY_ImageresizerTool cropGIFWithGifData:self.imageData
+                                         index:index
+                                     maskImage:self.frameView.maskImage
+                                     configure:self.frameView.currentCropConfigure
+                                 compressScale:compressScale
+                                      cacheURL:cacheURL
+                                    errorBlock:errorBlock
+                                 completeBlock:completeBlock];
+    } else {
+        [TFY_ImageresizerTool cropGIFWithGifImage:self.image
+                                          index:index maskImage:self.frameView.maskImage
+                                      configure:self.frameView.currentCropConfigure
+                                  compressScale:compressScale
+                                       cacheURL:cacheURL
+                                     errorBlock:errorBlock
+                                  completeBlock:completeBlock];
+    }
+}
+
+#pragma mark 裁剪视频
+// 原图尺寸裁剪视频当前帧画面
+- (void)cropVideoCurrentFrameWithCacheURL:(NSURL *)cacheURL
+                               errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                             completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropVideoOneFrameWithSecond:self.slider.second
+                        compressScale:1
+                             cacheURL:cacheURL
+                           errorBlock:errorBlock
+                        completeBlock:completeBlock];
+}
+
+// 自定义压缩比例裁剪视频当前帧画面
+- (void)cropVideoCurrentFrameWithCompressScale:(CGFloat)compressScale
+                                     cacheURL:(NSURL *)cacheURL
+                                    errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                                 completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropVideoOneFrameWithSecond:self.slider.second
+                        compressScale:compressScale
+                             cacheURL:cacheURL
+                           errorBlock:errorBlock
+                        completeBlock:completeBlock];
+}
+
+// 自定义压缩比例裁剪视频指定帧画面
+- (void)cropVideoOneFrameWithSecond:(float)second
+                      compressScale:(CGFloat)compressScale
+                           cacheURL:(NSURL *)cacheURL
+                         errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                      completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (compressScale <= 0) {
+        TFY_IRLog(@"TFY__tip: 压缩比例不能小于或等于0");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (!self.videoObj) {
+        TFY_IRLog(@"TFY__tip: 当前裁剪元素非视频");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (second < 0) {
+        second = 0;
+    } else if (second > self.slider.seconds) {
+        second = self.slider.seconds;
+    }
+    [TFY_ImageresizerTool cropVideoWithAsset:self.videoObj.asset
+                                      time:CMTimeMakeWithSeconds(second, self.videoObj.timescale)
+                               maximumSize:self.videoObj.videoSize
+                                 maskImage:self.frameView.maskImage
+                                 configure:self.frameView.currentCropConfigure
+                             compressScale:compressScale
+                                  cacheURL:cacheURL
+                                errorBlock:errorBlock
+                             completeBlock:completeBlock];
+}
+
+- (void)cropVideoToGIFFromCurrentSecondWithDuration:(NSTimeInterval)duration
+                                           cacheURL:(NSURL *)cacheURL
+                                         errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                                      completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    [self cropVideoToGIFFromStartSecond:self.slider.second
+                               duration:duration
+                                    fps:10
+                                   rate:1
+                            maximumSize:CGSizeMake(500, 500)
+                               cacheURL:cacheURL
+                             errorBlock:errorBlock
+                          completeBlock:completeBlock];
+}
+- (void)cropVideoToGIFFromStartSecond:(NSTimeInterval)startSecond
+                             duration:(NSTimeInterval)duration
+                                  fps:(float)fps
+                                 rate:(float)rate
+                          maximumSize:(CGSize)maximumSize
+                             cacheURL:(NSURL *)cacheURL
+                           errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                        completeBlock:(TFY_CropPictureDoneBlock)completeBlock {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (!self.videoObj) {
+        TFY_IRLog(@"TFY__tip: 当前裁剪元素非视频");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    if (startSecond < 0) {
+        startSecond = 0;
+    } else if (startSecond > self.slider.seconds) {
+        TFY_IRLog(@"TFY__tip: 请设置正确的初始时间");
+        !completeBlock ? : completeBlock(nil, nil, NO);
+        return;
+    }
+    [TFY_ImageresizerTool cropVideoToGIFWithAsset:self.videoObj.asset
+                                    startSecond:startSecond
+                                       duration:duration
+                                            fps:fps
+                                           rate:rate
+                                    maximumSize:maximumSize
+                                      maskImage:self.frameView.maskImage
+                                      configure:self.frameView.currentCropConfigure
+                                       cacheURL:cacheURL
+                                     errorBlock:errorBlock
+                                  completeBlock:completeBlock];
+}
+
+// 裁剪整段视频
+- (void)cropVideoWithCacheURL:(NSURL *)cacheURL
+                   errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                progressBlock:(TFY_ExportVideoProgressBlock)progressBlock
+                completeBlock:(TFY_ExportVideoCompleteBlock)completeBlock {
+    [self cropVideoWithPresetName:AVAssetExportPresetHighestQuality
+                         cacheURL:cacheURL
+                       errorBlock:errorBlock
+                    progressBlock:progressBlock
+                    completeBlock:completeBlock];
+}
+
+// 裁剪整段视频
+- (void)cropVideoWithPresetName:(NSString *)presetName
+                       cacheURL:(NSURL *)cacheURL
+                     errorBlock:(TFY_ImageresizerErrorBlock)errorBlock
+                 progressBlock:(TFY_ExportVideoProgressBlock)progressBlock
+                 completeBlock:(TFY_ExportVideoCompleteBlock)completeBlock {
+    if (self.frameView.isPrepareToScale) {
+        TFY_IRLog(@"TFY__tip: 裁剪区域预备缩放至适合位置，裁剪功能暂不可用，此时应该将裁剪按钮设为不可点或隐藏");
+        !completeBlock ? : completeBlock(nil);
+        return;
+    }
+    if (!self.videoObj) {
+        TFY_IRLog(@"TFY__tip: 当前裁剪内容非视频");
+        !completeBlock ? : completeBlock(nil);
+        return;
+    }
+    __weak typeof(self) wSelf = self;
+    [TFY_ImageresizerTool cropVideoWithAsset:self.videoObj.asset
+                                 timeRange:self.videoObj.timeRange
+                             frameDuration:self.videoObj.frameDuration
+                                presetName:presetName
+                                 configure:self.frameView.currentCropConfigure
+                                  cacheURL:cacheURL
+                                errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+        if (wSelf) {
+            __strong typeof(wSelf) sSelf = wSelf;
+            [sSelf __removeProgressTimer];
+        }
+        !errorBlock ? : errorBlock(cacheURL, reason);
+    } startBlock:^(AVAssetExportSession *exportSession) {
+        if (!wSelf) return;
+        __strong typeof(wSelf) sSelf = wSelf;
+        [sSelf __addProgressTimer:progressBlock exporterSession:exportSession];
+    } completeBlock:^(NSURL *cacheURL) {
+        if (wSelf) {
+            __strong typeof(wSelf) sSelf = wSelf;
+            [sSelf __removeProgressTimer];
+        }
+        !completeBlock ? : completeBlock(cacheURL);
+    }];
+}
+
+// 取消视频导出
+- (void)videoCancelExport {
+    [self.exporterSession cancelExport];
 }
 
 #pragma mark - <UIScrollViewDelegate>
@@ -772,6 +1532,5 @@
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
     [self.frameView endedImageresizer];
 }
-
 
 @end

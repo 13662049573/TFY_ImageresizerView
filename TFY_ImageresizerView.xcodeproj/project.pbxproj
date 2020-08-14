@@ -8,6 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		1F23B23CD683D3886032E06F /* Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEECF4C7D1D9AE9062062DA /* Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests.framework */; };
+		366D6ED424E631F2004F6754 /* TFY_ImageresizerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6ED324E631F2004F6754 /* TFY_ImageresizerSlider.m */; };
+		366D6ED724E633D5004F6754 /* TFY_ImageresizerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6ED624E633D5004F6754 /* TFY_ImageresizerTool.m */; };
+		366D6EDD24E655BD004F6754 /* TFY_ExportCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6EDC24E655BD004F6754 /* TFY_ExportCancelView.m */; };
+		366D6EF324E65CBC004F6754 /* Kobe.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE024E65CBC004F6754 /* Kobe.jpg */; };
+		366D6EF424E65CBC004F6754 /* Flowers.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE124E65CBC004F6754 /* Flowers.jpg */; };
+		366D6EF724E65CBC004F6754 /* Gem.gif in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE424E65CBC004F6754 /* Gem.gif */; };
+		366D6EF824E65CBC004F6754 /* Girl8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE524E65CBC004F6754 /* Girl8.jpg */; };
+		366D6EF924E65CBC004F6754 /* yaorenmao.mov in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE624E65CBC004F6754 /* yaorenmao.mov */; };
+		366D6EFA24E65CBC004F6754 /* Girl4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE724E65CBC004F6754 /* Girl4.jpg */; };
+		366D6EFB24E65CBC004F6754 /* Girl5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE824E65CBC004F6754 /* Girl5.jpg */; };
+		366D6EFC24E65CBC004F6754 /* supreme.png in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EE924E65CBC004F6754 /* supreme.png */; };
+		366D6EFD24E65CBC004F6754 /* Girl7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EEA24E65CBC004F6754 /* Girl7.jpg */; };
+		366D6EFE24E65CBC004F6754 /* Girl6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EEB24E65CBC004F6754 /* Girl6.jpg */; };
+		366D6EFF24E65CBC004F6754 /* shape.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EEC24E65CBC004F6754 /* shape.ttf */; };
+		366D6F0024E65CBC004F6754 /* Girl2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EED24E65CBC004F6754 /* Girl2.jpg */; };
+		366D6F0124E65CBC004F6754 /* Girl3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EEE24E65CBC004F6754 /* Girl3.jpg */; };
+		366D6F0224E65CBC004F6754 /* Girl1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EEF24E65CBC004F6754 /* Girl1.jpg */; };
+		366D6F0324E65CBC004F6754 /* love.png in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EF024E65CBC004F6754 /* love.png */; };
+		366D6F0424E65CBC004F6754 /* Dilraba.gif in Resources */ = {isa = PBXBuildFile; fileRef = 366D6EF124E65CBC004F6754 /* Dilraba.gif */; };
+		366D6F1224E69109004F6754 /* UIAlertController+TFY_Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6F0624E69108004F6754 /* UIAlertController+TFY_Tools.m */; };
+		366D6F1324E69109004F6754 /* TFY_ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6F0D24E69108004F6754 /* TFY_ImagePickerController.m */; };
+		366D6F1424E69109004F6754 /* TFY_ClipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6F0E24E69108004F6754 /* TFY_ClipViewController.m */; };
+		366D6F1524E69109004F6754 /* TFY_ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6F0F24E69108004F6754 /* TFY_ListViewController.m */; };
+		366D6F1624E69109004F6754 /* TFY_ListViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6F1024E69108004F6754 /* TFY_ListViewFlowLayout.m */; };
+		366D6F1724E69109004F6754 /* TFY_ListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 366D6F1124E69108004F6754 /* TFY_ListViewCell.m */; };
 		36858F91249ECD5400C1903F /* ShapeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36858F90249ECD5400C1903F /* ShapeListViewController.m */; };
 		36858F94249ECE0B00C1903F /* TFY_ImageViewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36858F93249ECE0B00C1903F /* TFY_ImageViewsController.m */; };
 		36858F97249ED0ED00C1903F /* AttachmentFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 36858F96249ED0ED00C1903F /* AttachmentFlowLayout.m */; };
@@ -29,19 +54,12 @@
 		36E1250F249E2A8500077563 /* UIWindow+TFY_Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E1250E249E2A8500077563 /* UIWindow+TFY_Tools.m */; };
 		36E12513249E30B800077563 /* TFY_ImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E12512249E30B800077563 /* TFY_ImageController.m */; };
 		38B4710365442A7C11D87749 /* Pods_TFY_ImageresizerView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BA630F7D934773B5C660B8 /* Pods_TFY_ImageresizerView.framework */; };
-		5651779324A2F0640091AB0F /* TFY_ImagePlist.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5651779224A2F0640091AB0F /* TFY_ImagePlist.bundle */; };
-		5655950324A1B7FD0013F99B /* TFY_ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950224A1B7FD0013F99B /* TFY_ListViewController.m */; };
-		5655950624A1B8410013F99B /* TFY_ListViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950524A1B8410013F99B /* TFY_ListViewFlowLayout.m */; };
-		5655950924A1B8A30013F99B /* TFY_ListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950824A1B8A30013F99B /* TFY_ListViewCell.m */; };
-		5655950C24A1BC260013F99B /* UIAlertController+TFY_Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 5655950A24A1BC260013F99B /* UIAlertController+TFY_Tools.m */; };
 		565EB7DE24A07A2300DED939 /* TFY_ImageresizerBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D324A07A2300DED939 /* TFY_ImageresizerBlur.m */; };
 		565EB7DF24A07A2300DED939 /* UIImage+TFY_ImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D424A07A2300DED939 /* UIImage+TFY_ImageLayer.m */; };
 		565EB7E024A07A2300DED939 /* TFY_ImageresizerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D624A07A2300DED939 /* TFY_ImageresizerView.m */; };
 		565EB7E124A07A2300DED939 /* TFY_ImageresizerFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D724A07A2300DED939 /* TFY_ImageresizerFrame.m */; };
 		565EB7E224A07A2300DED939 /* TFY_ImageresizerConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7DB24A07A2300DED939 /* TFY_ImageresizerConfigure.m */; };
 		565EB7E524A086E300DED939 /* TFY_PhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7E424A086E300DED939 /* TFY_PhotoTool.m */; };
-		565EB7E824A099FA00DED939 /* TFY_ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7E724A099FA00DED939 /* TFY_ImagePickerController.m */; };
-		565EB7EB24A0A34D00DED939 /* TFY_ClipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7EA24A0A34D00DED939 /* TFY_ClipViewController.m */; };
 		77BA87EE93DA3B6D698283E9 /* Pods_TFY_ImageresizerViewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB273D5CFF8CF625206C6583 /* Pods_TFY_ImageresizerViewTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +83,40 @@
 /* Begin PBXFileReference section */
 		0C3EC4DA3785B319E452B83B /* Pods-TFY_ImageresizerView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFY_ImageresizerView.debug.xcconfig"; path = "Target Support Files/Pods-TFY_ImageresizerView/Pods-TFY_ImageresizerView.debug.xcconfig"; sourceTree = "<group>"; };
 		16B020BFB4134B0D69D3C6CC /* Pods-TFY_ImageresizerViewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFY_ImageresizerViewTests.release.xcconfig"; path = "Target Support Files/Pods-TFY_ImageresizerViewTests/Pods-TFY_ImageresizerViewTests.release.xcconfig"; sourceTree = "<group>"; };
+		366D6ED224E631F2004F6754 /* TFY_ImageresizerSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageresizerSlider.h; sourceTree = "<group>"; };
+		366D6ED324E631F2004F6754 /* TFY_ImageresizerSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageresizerSlider.m; sourceTree = "<group>"; };
+		366D6ED524E633D5004F6754 /* TFY_ImageresizerTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageresizerTool.h; sourceTree = "<group>"; };
+		366D6ED624E633D5004F6754 /* TFY_ImageresizerTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageresizerTool.m; sourceTree = "<group>"; };
+		366D6EDB24E655BD004F6754 /* TFY_ExportCancelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ExportCancelView.h; sourceTree = "<group>"; };
+		366D6EDC24E655BD004F6754 /* TFY_ExportCancelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ExportCancelView.m; sourceTree = "<group>"; };
+		366D6EE024E65CBC004F6754 /* Kobe.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Kobe.jpg; sourceTree = "<group>"; };
+		366D6EE124E65CBC004F6754 /* Flowers.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Flowers.jpg; sourceTree = "<group>"; };
+		366D6EE424E65CBC004F6754 /* Gem.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Gem.gif; sourceTree = "<group>"; };
+		366D6EE524E65CBC004F6754 /* Girl8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl8.jpg; sourceTree = "<group>"; };
+		366D6EE624E65CBC004F6754 /* yaorenmao.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = yaorenmao.mov; sourceTree = "<group>"; };
+		366D6EE724E65CBC004F6754 /* Girl4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl4.jpg; sourceTree = "<group>"; };
+		366D6EE824E65CBC004F6754 /* Girl5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl5.jpg; sourceTree = "<group>"; };
+		366D6EE924E65CBC004F6754 /* supreme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = supreme.png; sourceTree = "<group>"; };
+		366D6EEA24E65CBC004F6754 /* Girl7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl7.jpg; sourceTree = "<group>"; };
+		366D6EEB24E65CBC004F6754 /* Girl6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl6.jpg; sourceTree = "<group>"; };
+		366D6EEC24E65CBC004F6754 /* shape.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shape.ttf; sourceTree = "<group>"; };
+		366D6EED24E65CBC004F6754 /* Girl2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl2.jpg; sourceTree = "<group>"; };
+		366D6EEE24E65CBC004F6754 /* Girl3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl3.jpg; sourceTree = "<group>"; };
+		366D6EEF24E65CBC004F6754 /* Girl1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Girl1.jpg; sourceTree = "<group>"; };
+		366D6EF024E65CBC004F6754 /* love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = love.png; sourceTree = "<group>"; };
+		366D6EF124E65CBC004F6754 /* Dilraba.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Dilraba.gif; sourceTree = "<group>"; };
+		366D6F0624E69108004F6754 /* UIAlertController+TFY_Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFY_Tools.m"; sourceTree = "<group>"; };
+		366D6F0724E69108004F6754 /* TFY_ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ImagePickerController.h; sourceTree = "<group>"; };
+		366D6F0824E69108004F6754 /* TFY_ClipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ClipViewController.h; sourceTree = "<group>"; };
+		366D6F0924E69108004F6754 /* TFY_ListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ListViewCell.h; sourceTree = "<group>"; };
+		366D6F0A24E69108004F6754 /* TFY_ListViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ListViewFlowLayout.h; sourceTree = "<group>"; };
+		366D6F0B24E69108004F6754 /* TFY_ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ListViewController.h; sourceTree = "<group>"; };
+		366D6F0C24E69108004F6754 /* UIAlertController+TFY_Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFY_Tools.h"; sourceTree = "<group>"; };
+		366D6F0D24E69108004F6754 /* TFY_ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ImagePickerController.m; sourceTree = "<group>"; };
+		366D6F0E24E69108004F6754 /* TFY_ClipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ClipViewController.m; sourceTree = "<group>"; };
+		366D6F0F24E69108004F6754 /* TFY_ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewController.m; sourceTree = "<group>"; };
+		366D6F1024E69108004F6754 /* TFY_ListViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewFlowLayout.m; sourceTree = "<group>"; };
+		366D6F1124E69108004F6754 /* TFY_ListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewCell.m; sourceTree = "<group>"; };
 		36858F8F249ECD5400C1903F /* ShapeListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShapeListViewController.h; sourceTree = "<group>"; };
 		36858F90249ECD5400C1903F /* ShapeListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShapeListViewController.m; sourceTree = "<group>"; };
 		36858F92249ECE0B00C1903F /* TFY_ImageViewsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageViewsController.h; sourceTree = "<group>"; };
@@ -107,15 +159,6 @@
 		36E12511249E30B800077563 /* TFY_ImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageController.h; sourceTree = "<group>"; };
 		36E12512249E30B800077563 /* TFY_ImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageController.m; sourceTree = "<group>"; };
 		3743B44BA1EA19383D822406 /* Pods-TFY_ImageresizerViewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFY_ImageresizerViewTests.debug.xcconfig"; path = "Target Support Files/Pods-TFY_ImageresizerViewTests/Pods-TFY_ImageresizerViewTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5651779224A2F0640091AB0F /* TFY_ImagePlist.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TFY_ImagePlist.bundle; sourceTree = "<group>"; };
-		5655950124A1B7FD0013F99B /* TFY_ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ListViewController.h; sourceTree = "<group>"; };
-		5655950224A1B7FD0013F99B /* TFY_ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewController.m; sourceTree = "<group>"; };
-		5655950424A1B8410013F99B /* TFY_ListViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ListViewFlowLayout.h; sourceTree = "<group>"; };
-		5655950524A1B8410013F99B /* TFY_ListViewFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewFlowLayout.m; sourceTree = "<group>"; };
-		5655950724A1B8A30013F99B /* TFY_ListViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ListViewCell.h; sourceTree = "<group>"; };
-		5655950824A1B8A30013F99B /* TFY_ListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ListViewCell.m; sourceTree = "<group>"; };
-		5655950A24A1BC260013F99B /* UIAlertController+TFY_Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFY_Tools.m"; sourceTree = "<group>"; };
-		5655950B24A1BC260013F99B /* UIAlertController+TFY_Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFY_Tools.h"; sourceTree = "<group>"; };
 		565EB7D224A07A2300DED939 /* TFY_ImageresizerFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ImageresizerFrame.h; sourceTree = "<group>"; };
 		565EB7D324A07A2300DED939 /* TFY_ImageresizerBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageresizerBlur.m; sourceTree = "<group>"; };
 		565EB7D424A07A2300DED939 /* UIImage+TFY_ImageLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TFY_ImageLayer.m"; sourceTree = "<group>"; };
@@ -129,10 +172,6 @@
 		565EB7DC24A07A2300DED939 /* TFY_ImageresizerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ImageresizerView.h; sourceTree = "<group>"; };
 		565EB7E324A086E300DED939 /* TFY_PhotoTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_PhotoTool.h; sourceTree = "<group>"; };
 		565EB7E424A086E300DED939 /* TFY_PhotoTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_PhotoTool.m; sourceTree = "<group>"; };
-		565EB7E624A099FA00DED939 /* TFY_ImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImagePickerController.h; sourceTree = "<group>"; };
-		565EB7E724A099FA00DED939 /* TFY_ImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ImagePickerController.m; sourceTree = "<group>"; };
-		565EB7E924A0A34D00DED939 /* TFY_ClipViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ClipViewController.h; sourceTree = "<group>"; };
-		565EB7EA24A0A34D00DED939 /* TFY_ClipViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ClipViewController.m; sourceTree = "<group>"; };
 		7EEECF4C7D1D9AE9062062DA /* Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TFY_ImageresizerView_TFY_ImageresizerViewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9933DA01232BFE672335564F /* Pods-TFY_ImageresizerView-TFY_ImageresizerViewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFY_ImageresizerView-TFY_ImageresizerViewUITests.release.xcconfig"; path = "Target Support Files/Pods-TFY_ImageresizerView-TFY_ImageresizerViewUITests/Pods-TFY_ImageresizerView-TFY_ImageresizerViewUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A1BA630F7D934773B5C660B8 /* Pods_TFY_ImageresizerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TFY_ImageresizerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +208,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		366D6EDE24E65CBC004F6754 /* imagepic */ = {
+			isa = PBXGroup;
+			children = (
+				366D6EE024E65CBC004F6754 /* Kobe.jpg */,
+				366D6EE124E65CBC004F6754 /* Flowers.jpg */,
+				366D6EE424E65CBC004F6754 /* Gem.gif */,
+				366D6EE524E65CBC004F6754 /* Girl8.jpg */,
+				366D6EE624E65CBC004F6754 /* yaorenmao.mov */,
+				366D6EE724E65CBC004F6754 /* Girl4.jpg */,
+				366D6EE824E65CBC004F6754 /* Girl5.jpg */,
+				366D6EE924E65CBC004F6754 /* supreme.png */,
+				366D6EEA24E65CBC004F6754 /* Girl7.jpg */,
+				366D6EEB24E65CBC004F6754 /* Girl6.jpg */,
+				366D6EEC24E65CBC004F6754 /* shape.ttf */,
+				366D6EED24E65CBC004F6754 /* Girl2.jpg */,
+				366D6EEE24E65CBC004F6754 /* Girl3.jpg */,
+				366D6EEF24E65CBC004F6754 /* Girl1.jpg */,
+				366D6EF024E65CBC004F6754 /* love.png */,
+				366D6EF124E65CBC004F6754 /* Dilraba.gif */,
+			);
+			path = imagepic;
+			sourceTree = "<group>";
+		};
+		366D6F0524E69108004F6754 /* TFY_ImageController */ = {
+			isa = PBXGroup;
+			children = (
+				366D6F0924E69108004F6754 /* TFY_ListViewCell.h */,
+				366D6F1124E69108004F6754 /* TFY_ListViewCell.m */,
+				366D6F0724E69108004F6754 /* TFY_ImagePickerController.h */,
+				366D6F0D24E69108004F6754 /* TFY_ImagePickerController.m */,
+				366D6F0824E69108004F6754 /* TFY_ClipViewController.h */,
+				366D6F0E24E69108004F6754 /* TFY_ClipViewController.m */,
+				366D6F0A24E69108004F6754 /* TFY_ListViewFlowLayout.h */,
+				366D6F1024E69108004F6754 /* TFY_ListViewFlowLayout.m */,
+				366D6F0B24E69108004F6754 /* TFY_ListViewController.h */,
+				366D6F0F24E69108004F6754 /* TFY_ListViewController.m */,
+				366D6F0C24E69108004F6754 /* UIAlertController+TFY_Tools.h */,
+				366D6F0624E69108004F6754 /* UIAlertController+TFY_Tools.m */,
+			);
+			path = TFY_ImageController;
+			sourceTree = "<group>";
+		};
 		36858F8E249ECD2F00C1903F /* TFY_ShapeList */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +288,7 @@
 		36E1249A249DFE2D00077563 /* TFY_ImageresizerView */ = {
 			isa = PBXGroup;
 			children = (
+				366D6EDE24E65CBC004F6754 /* imagepic */,
 				36E12503249E283000077563 /* TFY_Helper */,
 				36E124D5249DFEE100077563 /* TFY_AppDelegate */,
 				36E124D0249DFEE100077563 /* TFY_CLass */,
@@ -241,6 +323,7 @@
 		36E124D0249DFEE100077563 /* TFY_CLass */ = {
 			isa = PBXGroup;
 			children = (
+				366D6F0524E69108004F6754 /* TFY_ImageController */,
 				36858F8E249ECD2F00C1903F /* TFY_ShapeList */,
 				36E124D1249DFEE100077563 /* Controller */,
 			);
@@ -256,6 +339,8 @@
 				36E12512249E30B800077563 /* TFY_ImageController.m */,
 				36858F92249ECE0B00C1903F /* TFY_ImageViewsController.h */,
 				36858F93249ECE0B00C1903F /* TFY_ImageViewsController.m */,
+				366D6EDB24E655BD004F6754 /* TFY_ExportCancelView.h */,
+				366D6EDC24E655BD004F6754 /* TFY_ExportCancelView.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -289,8 +374,6 @@
 			isa = PBXGroup;
 			children = (
 				36E12510249E2C0D00077563 /* TFY_ImageersizeHeader.h */,
-				5651779224A2F0640091AB0F /* TFY_ImagePlist.bundle */,
-				565EB7DD24A07A2300DED939 /* TFY_ImageController */,
 				565EB7D124A07A2300DED939 /* TFY_ImageSizeTools */,
 			);
 			path = TFY_ImageersizeKit;
@@ -325,27 +408,12 @@
 				565EB7D624A07A2300DED939 /* TFY_ImageresizerView.m */,
 				565EB7E324A086E300DED939 /* TFY_PhotoTool.h */,
 				565EB7E424A086E300DED939 /* TFY_PhotoTool.m */,
+				366D6ED224E631F2004F6754 /* TFY_ImageresizerSlider.h */,
+				366D6ED324E631F2004F6754 /* TFY_ImageresizerSlider.m */,
+				366D6ED524E633D5004F6754 /* TFY_ImageresizerTool.h */,
+				366D6ED624E633D5004F6754 /* TFY_ImageresizerTool.m */,
 			);
 			path = TFY_ImageSizeTools;
-			sourceTree = "<group>";
-		};
-		565EB7DD24A07A2300DED939 /* TFY_ImageController */ = {
-			isa = PBXGroup;
-			children = (
-				565EB7E624A099FA00DED939 /* TFY_ImagePickerController.h */,
-				565EB7E724A099FA00DED939 /* TFY_ImagePickerController.m */,
-				565EB7E924A0A34D00DED939 /* TFY_ClipViewController.h */,
-				565EB7EA24A0A34D00DED939 /* TFY_ClipViewController.m */,
-				5655950124A1B7FD0013F99B /* TFY_ListViewController.h */,
-				5655950224A1B7FD0013F99B /* TFY_ListViewController.m */,
-				5655950424A1B8410013F99B /* TFY_ListViewFlowLayout.h */,
-				5655950524A1B8410013F99B /* TFY_ListViewFlowLayout.m */,
-				5655950724A1B8A30013F99B /* TFY_ListViewCell.h */,
-				5655950824A1B8A30013F99B /* TFY_ListViewCell.m */,
-				5655950B24A1BC260013F99B /* UIAlertController+TFY_Tools.h */,
-				5655950A24A1BC260013F99B /* UIAlertController+TFY_Tools.m */,
-			);
-			path = TFY_ImageController;
 			sourceTree = "<group>";
 		};
 		6792086F913B66E373C1B9D4 /* Pods */ = {
@@ -479,12 +547,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5651779324A2F0640091AB0F /* TFY_ImagePlist.bundle in Resources */,
+				366D6EF824E65CBC004F6754 /* Girl8.jpg in Resources */,
+				366D6EF724E65CBC004F6754 /* Gem.gif in Resources */,
+				366D6EF924E65CBC004F6754 /* yaorenmao.mov in Resources */,
+				366D6EF324E65CBC004F6754 /* Kobe.jpg in Resources */,
+				366D6F0124E65CBC004F6754 /* Girl3.jpg in Resources */,
+				366D6EF424E65CBC004F6754 /* Flowers.jpg in Resources */,
+				366D6EFE24E65CBC004F6754 /* Girl6.jpg in Resources */,
 				36858F9D249EEE1D00C1903F /* Digital-7.TTF in Resources */,
+				366D6F0224E65CBC004F6754 /* Girl1.jpg in Resources */,
 				36E124AB249DFE3000077563 /* LaunchScreen.storyboard in Resources */,
+				366D6F0024E65CBC004F6754 /* Girl2.jpg in Resources */,
 				36E12501249E265000077563 /* shapeList.plist in Resources */,
+				366D6EFC24E65CBC004F6754 /* supreme.png in Resources */,
+				366D6EFB24E65CBC004F6754 /* Girl5.jpg in Resources */,
+				366D6F0324E65CBC004F6754 /* love.png in Resources */,
+				366D6EFA24E65CBC004F6754 /* Girl4.jpg in Resources */,
 				36858F9E249EEE1D00C1903F /* Archer-BoldLF.ttf in Resources */,
 				36E124A8249DFE3000077563 /* Assets.xcassets in Resources */,
+				366D6F0424E65CBC004F6754 /* Dilraba.gif in Resources */,
+				366D6EFF24E65CBC004F6754 /* shape.ttf in Resources */,
+				366D6EFD24E65CBC004F6754 /* Girl7.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,27 +699,30 @@
 				565EB7DF24A07A2300DED939 /* UIImage+TFY_ImageLayer.m in Sources */,
 				36E1250F249E2A8500077563 /* UIWindow+TFY_Tools.m in Sources */,
 				565EB7E024A07A2300DED939 /* TFY_ImageresizerView.m in Sources */,
+				366D6EDD24E655BD004F6754 /* TFY_ExportCancelView.m in Sources */,
 				36E124DD249DFEE100077563 /* AppDelegate.m in Sources */,
-				5655950324A1B7FD0013F99B /* TFY_ListViewController.m in Sources */,
+				366D6F1724E69109004F6754 /* TFY_ListViewCell.m in Sources */,
 				36858F91249ECD5400C1903F /* ShapeListViewController.m in Sources */,
-				5655950C24A1BC260013F99B /* UIAlertController+TFY_Tools.m in Sources */,
+				366D6F1624E69109004F6754 /* TFY_ListViewFlowLayout.m in Sources */,
 				565EB7E224A07A2300DED939 /* TFY_ImageresizerConfigure.m in Sources */,
 				565EB7E524A086E300DED939 /* TFY_PhotoTool.m in Sources */,
-				5655950624A1B8410013F99B /* TFY_ListViewFlowLayout.m in Sources */,
 				36E12506249E285700077563 /* TFY_SolveTool.m in Sources */,
 				565EB7E124A07A2300DED939 /* TFY_ImageresizerFrame.m in Sources */,
 				36858FA1249EEE4000C1903F /* UIFont+FontNameSize.m in Sources */,
 				36E12513249E30B800077563 /* TFY_ImageController.m in Sources */,
+				366D6ED724E633D5004F6754 /* TFY_ImageresizerTool.m in Sources */,
 				36E12509249E294D00077563 /* NSString+TFY_Tools.m in Sources */,
 				36E124DB249DFEE100077563 /* ViewController.m in Sources */,
-				565EB7E824A099FA00DED939 /* TFY_ImagePickerController.m in Sources */,
-				565EB7EB24A0A34D00DED939 /* TFY_ClipViewController.m in Sources */,
 				36E124DC249DFEE100077563 /* SceneDelegate.m in Sources */,
 				36858F94249ECE0B00C1903F /* TFY_ImageViewsController.m in Sources */,
-				5655950924A1B8A30013F99B /* TFY_ListViewCell.m in Sources */,
+				366D6F1524E69109004F6754 /* TFY_ListViewController.m in Sources */,
 				36E124AE249DFE3000077563 /* main.m in Sources */,
 				36858F9A249ED19400C1903F /* ShapeMergeCell.m in Sources */,
+				366D6F1424E69109004F6754 /* TFY_ClipViewController.m in Sources */,
 				565EB7DE24A07A2300DED939 /* TFY_ImageresizerBlur.m in Sources */,
+				366D6F1324E69109004F6754 /* TFY_ImagePickerController.m in Sources */,
+				366D6ED424E631F2004F6754 /* TFY_ImageresizerSlider.m in Sources */,
+				366D6F1224E69109004F6754 /* UIAlertController+TFY_Tools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
