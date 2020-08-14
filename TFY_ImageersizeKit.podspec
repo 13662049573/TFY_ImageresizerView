@@ -28,7 +28,9 @@ Pod::Spec.new do |spec|
   spec.subspec 'TFY_ImageSizeTools' do |s|
     s.source_files  = "TFY_ImageresizerView/TFY_ImageersizeKit/TFY_ImageSizeTools/**/*.{h,m}"
   end
-  
+
+  spec.xcconfig      = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include" }  
+
   spec.requires_arc = true
 
 end
