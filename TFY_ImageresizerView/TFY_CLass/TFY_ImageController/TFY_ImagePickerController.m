@@ -43,7 +43,7 @@ static TFY_ImageObject *obj_;
         vc.configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:image make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
             
         }];
-        vc.clip_Block = ^(UIImage * _Nonnull images) {
+        vc.clip_Block = ^(UIImage *image, NSData *imageData, NSURL *videoURL) {
             [picker dismissViewControllerAnimated:YES completion:^{
                 if ((image || imageData || videoURL) && self.replaceHandler) self.replaceHandler(image, imageData, videoURL);
                 obj_ = nil;

@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TFY_ClipViewController : UIViewController
-@property (nonatomic, copy) void (^clip_Block)(UIImage *images);
+@property (nonatomic, copy) void (^clip_Block)(UIImage *image, NSData *imageData, NSURL *videoURL);
 @property (nonatomic, strong) TFY_ImageresizerConfigure *configure;
 @end
 

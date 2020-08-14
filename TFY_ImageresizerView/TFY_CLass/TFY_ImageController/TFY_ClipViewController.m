@@ -356,17 +356,6 @@ static UIViewController *tmpVC_;
     [self presentViewController:alertCtr animated:YES completion:nil];
 }
 
-#pragma mark - 裁剪完成
-
-- (void)__imageresizerDone:(UIImage *)resizeImage {
-    if (!resizeImage) {
-        return;
-    }
-    if (self.clip_Block) {
-        self.clip_Block(resizeImage);
-    }
-}
-
 #pragma mark - 按钮点击事件
 //更改样式
 - (void)changeFrameType:(UIButton *)sender {
@@ -644,9 +633,9 @@ static UIViewController *tmpVC_;
         if (!self) return;
         self.isExporting = NO;
         
-//        JPImageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"JPImageViewController"];
-//        vc.videoURL = cacheURL;
-//        [self.navigationController pushViewController:vc animated:YES];
+    TFY_ImageViewsController *vc = [TFY_ImageViewsController new];
+    vc.videoURL = cacheURL;
+    [self.navigationController pushViewController:vc animated:YES];
     }];
 }
 
@@ -673,9 +662,13 @@ static UIViewController *tmpVC_;
     if (!finalImage && !cacheURL) {
         return;
     }
-    if (self.clip_Block) {
-        self.clip_Block(finalImage);
-    }
+   TFY_ImageViewsController *vc = [TFY_ImageViewsController new];
+   if (cacheURL) {
+       vc.imageURL = cacheURL;
+   } else {
+       vc.image = finalImage;
+   }
+   [self.navigationController pushViewController:vc animated:YES];
 }
 
 
