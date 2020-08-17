@@ -12,6 +12,7 @@
 #import "TFY_ImagePickerController.h"
 #import "UIAlertController+TFY_Tools.h"
 #import "TFY_ExportCancelView.h"
+#import "TFY_ImagePickerController.h"
 @interface TFY_ConfigureModel : NSObject
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) TFY_ImageresizerConfigure *configure;
@@ -258,7 +259,7 @@ static TFY_ImageresizerConfigure *gifConfigure_;
 
 #pragma mark - 打开相册
 - (void)__openAlbum:(BOOL)isBecomeDanielWu {
-    [UIAlertController openAlbum:^(UIImage * _Nonnull image, NSData * _Nonnull imageData, NSURL * _Nonnull videoURL) {
+    [TFY_ImagePickerController showImagePickerallowsEditing:YES finishAction:^(UIImage * _Nonnull image, NSData * _Nonnull imageData, NSURL * _Nonnull videoURL) {
         if (image) {
             TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:image make:nil];
             [self __startImageresizer:configure];

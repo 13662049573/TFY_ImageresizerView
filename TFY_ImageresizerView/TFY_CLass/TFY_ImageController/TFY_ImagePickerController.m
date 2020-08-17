@@ -32,30 +32,25 @@ static TFY_ImageObject *obj_;
         if (@available(iOS 11.0, *)) {
             NSURL *url = info[UIImagePickerControllerImageURL];
             imageData = [NSData dataWithContentsOfURL:url];
+            if (imageData==nil) {
+                image = info[UIImagePickerControllerOriginalImage];
+            }
         } else {
-            image = info[UIImagePickerControllerOriginalImage];
+           image = info[UIImagePickerControllerOriginalImage];
         }
     } else {
         videoURL = mediaURL;
     }
-    if (image && self.replaceHandler && self.allowsEditing) {
-        TFY_ClipViewController *vc = [TFY_ClipViewController new];
-        vc.configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:image make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
-            
-        }];
-        vc.clip_Block = ^(UIImage *image, NSData *imageData, NSURL *videoURL) {
-            [picker dismissViewControllerAnimated:YES completion:^{
-                if ((image || imageData || videoURL) && self.replaceHandler) self.replaceHandler(image, imageData, videoURL);
-                obj_ = nil;
-            }];
-        };
-        CATransition *cubeAnim = [CATransition animation];
-        cubeAnim.duration = 0.5;
-        cubeAnim.type = @"cube";
-        cubeAnim.subtype = kCATransitionFromRight;
-        cubeAnim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        [picker.view.window.layer addAnimation:cubeAnim forKey:@"cube"];
-        [picker pushViewController:vc animated:YES];
+    if ((image || imageData || videoURL) && self.replaceHandler && self.allowsEditing) {
+         if (image) {
+             TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:image make:^(TFY_ImageresizerConfigure * _Nonnull configure) {}];
+             [self PickerController:picker startImageresizer:configure];
+         } else if (imageData) {
+             TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImageData:imageData make:^(TFY_ImageresizerConfigure * _Nonnull configure) {}];
+           [self PickerController:picker startImageresizer:configure];
+        } else if (videoURL) {
+            [self PickerController:picker confirmVideo:videoURL];
+        }
     }
     else{
         [picker dismissViewControllerAnimated:YES completion:^{
@@ -69,6 +64,42 @@ static TFY_ImageObject *obj_;
     [picker dismissViewControllerAnimated:YES completion:^{
         obj_ = nil;
     }];
+}
+
+
+#pragma mark - 判断视频是否需要修正方向（内部or外部修正）
+- (void)PickerController:(UIImagePickerController *)picker confirmVideo:(NSURL *)videoURL {
+    TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoURL:videoURL make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+        
+    } fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+        
+    } fixStartBlock:^{
+        
+    } fixProgressBlock:^(float progress) {
+        NSLog(@"-------------%.2f",progress);
+    } fixCompleteBlock:^(NSURL *cacheURL) {
+        NSLog(@"-----cacheURL--------%@",cacheURL);
+    }];
+    [self PickerController:picker startImageresizer:configure];
+    return;
+}
+#pragma mark - 开始裁剪
+- (void)PickerController:(UIImagePickerController *)picker startImageresizer:(TFY_ImageresizerConfigure *)configure {
+    TFY_ClipViewController *vc = [TFY_ClipViewController new];
+    vc.configure = configure;
+    vc.clip_Block = ^(UIImage *image, NSData *imageData, NSURL *videoURL) {
+        [picker dismissViewControllerAnimated:YES completion:^{
+            if ((image || imageData || videoURL) && self.replaceHandler) self.replaceHandler(image, imageData, videoURL);
+            obj_ = nil;
+        }];
+    };
+    CATransition *cubeAnim = [CATransition animation];
+    cubeAnim.duration = 0.5;
+    cubeAnim.type = @"cube";
+    cubeAnim.subtype = kCATransitionFromRight;
+    cubeAnim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [picker.view.window.layer addAnimation:cubeAnim forKey:@"cube"];
+    [picker pushViewController:vc animated:YES];
 }
 
 @end
@@ -104,7 +135,7 @@ static TFY_ImageObject *obj_;
             [self PickerController:viewController sourcetype:UIImagePickerControllerSourceTypeCamera];
         }]];
         
-        [alertController addAction:[UIAlertAction actionWithTitle:@"视频" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:@"获取视频" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self PickerController:viewController sourcetype:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
         }]];
         
