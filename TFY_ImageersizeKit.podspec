@@ -4,7 +4,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFY_ImageersizeKit"
 
-  spec.version      = "2.1.0"
+  spec.version      = "2.1.2"
   
   spec.summary      = "相机获取和裁剪图片"
 
