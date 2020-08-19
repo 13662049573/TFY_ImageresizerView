@@ -15,5 +15,7 @@
 #import "TFY_ImageresizerSlider.h"
 //授权工具
 #import "TFY_PhotoTool.h"
+//相册选择器
+#import "TFY_ImagePickerTools.h"
 
 #endif /* TFY_ImageersizeHeader_h */

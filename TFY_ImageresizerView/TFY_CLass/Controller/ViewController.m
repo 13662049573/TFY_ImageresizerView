@@ -261,17 +261,17 @@ static TFY_ImageresizerConfigure *gifConfigure_;
 
 #pragma mark - 打开相册
 - (void)__openAlbum:(BOOL)isBecomeDanielWu {
-    [TFY_ImagePickerController showImagePickerallowsEditing:YES finishAction:^(UIImage * _Nonnull image, NSData * _Nonnull imageData, NSURL * _Nonnull videoURL) {
-        if (image) {
-            TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:image make:nil];
-            [self __startImageresizer:configure];
-        } else if (imageData) {
-            TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImageData:imageData make:nil];
-            [self __startImageresizer:configure];
-        } else if (videoURL) {
-            [self __confirmVideo:videoURL];
-        }
-    } fromVC:self];
+//    [TFY_ImagePickerController showImagePickerallowsEditing:YES finishAction:^(UIImage * _Nonnull image, NSData * _Nonnull imageData, NSURL * _Nonnull videoURL) {
+//        if (image) {
+//            TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:image make:nil];
+//            [self __startImageresizer:configure];
+//        } else if (imageData) {
+//            TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithImageData:imageData make:nil];
+//            [self __startImageresizer:configure];
+//        } else if (videoURL) {
+//            [self __confirmVideo:videoURL];
+//        }
+//    } fromVC:self];
 }
 
 #pragma mark - 判断视频是否需要修正方向（内部or外部修正）

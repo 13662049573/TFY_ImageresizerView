@@ -40,6 +40,7 @@
 		36858F9D249EEE1D00C1903F /* Digital-7.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 36858F9B249EEE1D00C1903F /* Digital-7.TTF */; };
 		36858F9E249EEE1D00C1903F /* Archer-BoldLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36858F9C249EEE1D00C1903F /* Archer-BoldLF.ttf */; };
 		36858FA1249EEE4000C1903F /* UIFont+FontNameSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 36858F9F249EEE3F00C1903F /* UIFont+FontNameSize.m */; };
+		36C3349524ECBD6300DA6FB2 /* TFY_ImagePickerTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C3349424ECBD6300DA6FB2 /* TFY_ImagePickerTools.m */; };
 		36E124A8249DFE3000077563 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36E124A7249DFE3000077563 /* Assets.xcassets */; };
 		36E124AB249DFE3000077563 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36E124A9249DFE3000077563 /* LaunchScreen.storyboard */; };
 		36E124AE249DFE3000077563 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E124AD249DFE3000077563 /* main.m */; };
@@ -129,6 +130,8 @@
 		36858F9C249EEE1D00C1903F /* Archer-BoldLF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archer-BoldLF.ttf"; sourceTree = "<group>"; };
 		36858F9F249EEE3F00C1903F /* UIFont+FontNameSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontNameSize.m"; sourceTree = "<group>"; };
 		36858FA0249EEE3F00C1903F /* UIFont+FontNameSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontNameSize.h"; sourceTree = "<group>"; };
+		36C3349324ECBD6300DA6FB2 /* TFY_ImagePickerTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImagePickerTools.h; sourceTree = "<group>"; };
+		36C3349424ECBD6300DA6FB2 /* TFY_ImagePickerTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ImagePickerTools.m; sourceTree = "<group>"; };
 		36E12498249DFE2D00077563 /* 图片裁剪.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "图片裁剪.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E124A7249DFE3000077563 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36E124AA249DFE3000077563 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -412,6 +415,8 @@
 				366D6ED324E631F2004F6754 /* TFY_ImageresizerSlider.m */,
 				366D6ED524E633D5004F6754 /* TFY_ImageresizerTool.h */,
 				366D6ED624E633D5004F6754 /* TFY_ImageresizerTool.m */,
+				36C3349324ECBD6300DA6FB2 /* TFY_ImagePickerTools.h */,
+				36C3349424ECBD6300DA6FB2 /* TFY_ImagePickerTools.m */,
 			);
 			path = TFY_ImageSizeTools;
 			sourceTree = "<group>";
@@ -723,6 +728,7 @@
 				366D6F1324E69109004F6754 /* TFY_ImagePickerController.m in Sources */,
 				366D6ED424E631F2004F6754 /* TFY_ImageresizerSlider.m in Sources */,
 				366D6F1224E69109004F6754 /* UIAlertController+TFY_Tools.m in Sources */,
+				36C3349524ECBD6300DA6FB2 /* TFY_ImagePickerTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
