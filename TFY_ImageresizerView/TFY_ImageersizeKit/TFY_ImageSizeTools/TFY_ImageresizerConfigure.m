@@ -143,7 +143,7 @@
     TFY_ImageresizerConfigure *configure = [[self alloc] init];
     configure
     .tfy_viewFrame([UIScreen mainScreen].bounds)
-    .tfy_blurEffect(nil)
+    .tfy_blurEffect(UIBlurEffect.new)
     .tfy_frameType(TFY_ConciseFrameType)
     .tfy_animationCurve(TFY_AnimationCurveEaseOut)
     .tfy_strokeColor(UIColor.whiteColor)
@@ -151,11 +151,11 @@
     .tfy_maskAlpha(0.75)
     .tfy_resizeWHScale(0.0)
     .tfy_isRoundResize(NO)
-    .tfy_maskImage(nil)
+    .tfy_maskImage(UIImage.new)
     .tfy_isArbitrarily(YES)
     .tfy_edgeLineIsEnabled(YES)
     .tfy_contentInsets(UIEdgeInsetsZero)
-    .tfy_borderImage(nil)
+    .tfy_borderImage(UIImage.new)
     .tfy_borderImageRectInset(CGPointZero)
     .tfy_maximumZoomScale(10.0)
     .tfy_isShowMidDots(YES)

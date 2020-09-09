@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) TFY_ImageresizerView *imageresizerView;
 @property (nonatomic, copy) void (^backBlock)(TFY_ImageController *vc);
 
-+ (void)showErrorMsg:(TFY_ImageresizerErrorReason)reason pathExtension:(NSString *)pathExtension;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -70,8 +70,7 @@
     }];
     [self.view insertSubview:imageresizerView atIndex:0];
     self.imageresizerView = imageresizerView;
-    self.configure = nil;
-    
+
     //监听屏幕旋转
    self.statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientation) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -348,7 +347,7 @@ static UIViewController *tmpVC_;
     }]];
     
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"移除蒙版" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        self.imageresizerView.maskImage = nil;
+        self.imageresizerView.maskImage = UIImage.new;
     }]];
     
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
@@ -367,11 +366,11 @@ static UIViewController *tmpVC_;
         }]];
     }
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"简洁样式" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        self.imageresizerView.borderImage = nil;
+        self.imageresizerView.borderImage = UIImage.new;
         self.imageresizerView.frameType = TFY_ConciseFrameType;
     }]];
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"经典样式" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        self.imageresizerView.borderImage = nil;
+        self.imageresizerView.borderImage = UIImage.new;
         self.imageresizerView.frameType = TFY_ClassicFrameType;
     }]];
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"拉伸的边框图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -401,7 +400,7 @@ static UIViewController *tmpVC_;
            UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
            [alertCtr addAction:[UIAlertAction actionWithTitle:@"裁剪当前帧画面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                [TFY_ProgressHUD showWithStatus:@"开始..."];
-               [self.imageresizerView cropVideoCurrentFrameWithCacheURL:nil errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+               [self.imageresizerView cropVideoCurrentFrameWithCacheURL:NSURL.new errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                    @tfy_strongify(self);
                    if (!self) return;
                    
@@ -453,7 +452,7 @@ static UIViewController *tmpVC_;
                UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
                [alertCtr addAction:[UIAlertAction actionWithTitle:@"裁剪当前帧画面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                    [TFY_ProgressHUD showWithStatus:@"开始..."];
-                   [self.imageresizerView cropGIFCurrentIndexWithCacheURL:nil errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+                   [self.imageresizerView cropGIFCurrentIndexWithCacheURL:NSURL.new errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                        @tfy_strongify(self);
                        if (!self) return;
                        
@@ -643,7 +642,6 @@ static UIViewController *tmpVC_;
     if (_isExporting == isExporting) return;
     _isExporting = isExporting;
     if (isExporting) {
-        @tfy_weakify(self);
         [self.imageresizerView videoCancelExport];
     }
 }

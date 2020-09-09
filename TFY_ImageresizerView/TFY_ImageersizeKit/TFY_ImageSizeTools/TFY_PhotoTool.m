@@ -238,7 +238,6 @@ TFY_SingtonImplement(TFY_PhotoTool)
     }
     self.changeResult = nil;
     self.currCollection = nil;
-    self.photoLibraryDidChangeHandler = nil;
 }
 
 #pragma mark 相册监听回调 PHPhotoLibraryChangeObserver

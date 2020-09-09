@@ -115,7 +115,7 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
     }];
     [self.view insertSubview:imageresizerView atIndex:0];
     self.imageresizerView = imageresizerView;
-    self.configure = nil;
+    
 }
 
 -(void)viewWillLayoutSubviews{
@@ -202,7 +202,7 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
     
     if (self.imageresizerView.maskImage) {
         [alertCtr addAction:[UIAlertAction actionWithTitle:@"移除蒙版" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            self.imageresizerView.maskImage = nil;
+            self.imageresizerView.maskImage = UIImage.new;
         }]];
     }
     
@@ -234,11 +234,11 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
         }]];
     }
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"简洁样式" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        self.imageresizerView.borderImage = nil;
+        self.imageresizerView.borderImage = UIImage.new;
         self.imageresizerView.frameType = TFY_ConciseFrameType;
     }]];
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"经典样式" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        self.imageresizerView.borderImage = nil;
+        self.imageresizerView.borderImage = UIImage.new;
         self.imageresizerView.frameType = TFY_ClassicFrameType;
     }]];
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"拉伸的边框图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -269,10 +269,9 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
         UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         [alertCtr addAction:[UIAlertAction actionWithTitle:@"裁剪当前帧画面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [TFY_ProgressHUD showWithStatus:@"开始..."];
-            [self.imageresizerView cropVideoCurrentFrameWithCacheURL:nil errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+            [self.imageresizerView cropVideoCurrentFrameWithCacheURL:NSURL.new errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                 @tfy_strongify(self);
                 if (!self) return;
-                [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
             } completeBlock:^(UIImage *finalImage, NSURL *cacheURL, BOOL isCacheSuccess) {
                 @tfy_strongify(self);
                 if (!self) return;
@@ -284,7 +283,6 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
             [self.imageresizerView cropVideoToGIFFromCurrentSecondWithDuration:5 cacheURL:[self __cacheURL:@"gif"] errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                 @tfy_strongify(self);
                 if (!self) return;
-                [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
             } completeBlock:^(UIImage *finalImage, NSURL *cacheURL, BOOL isCacheSuccess) {
                 @tfy_strongify(self);
                 if (!self) return;
@@ -306,7 +304,6 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
             [self.imageresizerView cropGIFWithCacheURL:[self __cacheURL:@"gif"] errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                 @tfy_strongify(self);
                 if (!self) return;
-                [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
             } completeBlock:^(UIImage *finalImage, NSURL *cacheURL, BOOL isCacheSuccess) {
                 // 裁剪完成，finalImage为裁剪后的图片
                 // 注意循环引用
@@ -321,10 +318,9 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
             UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             [alertCtr addAction:[UIAlertAction actionWithTitle:@"裁剪当前帧画面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [TFY_ProgressHUD showWithStatus:@"开始..."];
-                [self.imageresizerView cropGIFCurrentIndexWithCacheURL:nil errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+                [self.imageresizerView cropGIFCurrentIndexWithCacheURL:NSURL.new errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                     @tfy_strongify(self);
                     if (!self) return;
-                    [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
                 } completeBlock:^(UIImage *finalImage, NSURL *cacheURL, BOOL isCacheSuccess) {
                     // 裁剪完成，finalImage为裁剪后的图片
                     // 注意循环引用
@@ -347,7 +343,6 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
     [self.imageresizerView cropPictureWithCacheURL:[self __cacheURL:@"jpeg"] errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
         @tfy_strongify(self);
         if (!self) return;
-        [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
     } completeBlock:^(UIImage *finalImage, NSURL *cacheURL, BOOL isCacheSuccess) {
         // 裁剪完成，finalImage为裁剪后的图片
         // 注意循环引用
@@ -491,7 +486,6 @@ static UIViewController *tmpVC_;
             @tfy_weakify(self);
             [self.imageresizerView setVideoURL:videoURL animated:YES fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
                 weak_self.isExporting = NO;
-                [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
             } fixStartBlock:^{
                
             } fixProgressBlock:^(float progress) {
@@ -535,7 +529,6 @@ static UIViewController *tmpVC_;
     @tfy_weakify(self);
     [self.imageresizerView cropVideoWithCacheURL:[self __cacheURL:@"mov"] errorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
         weak_self.isExporting = NO;
-        [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
     } progressBlock:^(float progress) {
         // 监听进度
         weak_self.isExporting = YES;

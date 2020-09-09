@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
                     maxSize:(CGSize)maxSize
                        font:(UIFont *)font
                   lineSpace:(CGFloat)lineSpace
-                  isOneLine:(BOOL *)isOneLine;
+                  isOneLine:(BOOL)isOneLine;
 
 /**
  * 带富文本属性计算文本区域
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (CGRect)textFrameWithText:(NSString *)text
                     maxSize:(CGSize)maxSize
                  attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes
-                  isOneLine:(BOOL *)isOneLine;
+                  isOneLine:(BOOL)isOneLine;
 
 /**
  * 计算富文本区域（一行）
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 计算富文本区域（返回是否超过一行）
  */
-+ (CGRect)attTextFrameWithText:(NSAttributedString *)attText maxSize:(CGSize)maxSize isOneLine:(BOOL *)isOneLine;
++ (CGRect)attTextFrameWithText:(NSAttributedString *)attText maxSize:(CGSize)maxSize isOneLine:(BOOL)isOneLine;
 
 /**
  * 计算半径

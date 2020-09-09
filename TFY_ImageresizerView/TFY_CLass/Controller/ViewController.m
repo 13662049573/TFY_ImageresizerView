@@ -24,19 +24,25 @@
 + (NSArray<TFY_ConfigureModel *> *)testModels {
         TFY_ConfigureModel *model1 = [self new];
         model1.title = @"默认样式";
-        model1.configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:nil make:nil];
+    model1.configure = [TFY_ImageresizerConfigure defaultConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+        
+    }];
 
         TFY_ConfigureModel *model2 = [self new];
         model2.title = @"深色毛玻璃遮罩";
-        model2.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:nil make:nil];
+    model2.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+        
+    }];
 
         TFY_ConfigureModel *model3 = [self new];
         model3.title = @"浅色毛玻璃遮罩";
-        model3.configure = [TFY_ImageresizerConfigure lightBlurMaskTypeConfigureWithImage:nil make:nil];
+    model3.configure = [TFY_ImageresizerConfigure lightBlurMaskTypeConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+        
+    }];
 
         TFY_ConfigureModel *model4 = [self new];
         model4.title = @"拉伸样式的边框图片";
-        model4.configure = [TFY_ImageresizerConfigure lightBlurMaskTypeConfigureWithImage:nil make:^(TFY_ImageresizerConfigure *configure) {
+        model4.configure = [TFY_ImageresizerConfigure lightBlurMaskTypeConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure *configure) {
             configure
             .tfy_strokeColor([UIColor colorWithRed:(205.0 / 255.0) green:(107.0 / 255.0) blue:(153.0 / 255.0) alpha:1.0])
             .tfy_borderImage([TFY_ImageController stretchBorderImage])
@@ -45,7 +51,7 @@
 
         TFY_ConfigureModel *model5 = [self new];
         model5.title = @"平铺样式的边框图片";
-        model5.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:nil make:^(TFY_ImageresizerConfigure *configure) {
+        model5.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure *configure) {
             configure
             .tfy_frameType(TFY_ClassicFrameType)
             .tfy_borderImage([TFY_ImageController tileBorderImage])
@@ -54,7 +60,7 @@
 
         TFY_ConfigureModel *model6 = [self new];
         model6.title = @"圆切样式";
-        model6.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:nil make:^(TFY_ImageresizerConfigure *configure) {
+        model6.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure *configure) {
             configure
             .tfy_strokeColor(UIColor.redColor)
             .tfy_frameType(TFY_ClassicFrameType)
@@ -66,7 +72,7 @@
 
         TFY_ConfigureModel *model7 = [self new];
         model7.title = @"蒙版样式";
-        model7.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:nil make:^(TFY_ImageresizerConfigure *configure) {
+        model7.configure = [TFY_ImageresizerConfigure darkBlurMaskTypeConfigureWithImage:UIImage.new make:^(TFY_ImageresizerConfigure *configure) {
             configure
             .tfy_frameType(TFY_ClassicFrameType)
             .tfy_maskImage([UIImage imageNamed:@"love.png"])
@@ -178,7 +184,15 @@ static TFY_ImageresizerConfigure *gifConfigure_;
                 configure
                 .tfy_borderImage([TFY_ImageController stretchBorderImage])
                 .tfy_borderImageRectInset([TFY_ImageController stretchBorderImageRectInset]);
-            } fixErrorBlock:nil fixStartBlock:nil fixProgressBlock:nil fixCompleteBlock:nil];
+            } fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+                
+            } fixStartBlock:^{
+                
+            } fixProgressBlock:^(float progress) {
+                
+            } fixCompleteBlock:^(NSURL *cacheURL) {
+                
+            }];
         }
         [self __startImageresizer:model.configure];
     } else if (indexPath.section == 2) {
@@ -287,7 +301,17 @@ static TFY_ImageresizerConfigure *gifConfigure_;
     // 方向没被修改过，无需修正，直接进入
     AVAssetTrack *videoTrack = [videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject;
     if (CGAffineTransformEqualToTransform(videoTrack.preferredTransform, CGAffineTransformIdentity)) {
-        TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoAsset:videoAsset make:nil fixErrorBlock:nil fixStartBlock:nil fixProgressBlock:nil fixCompleteBlock:nil];
+        TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoAsset:videoAsset make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+            
+        } fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+            
+        } fixStartBlock:^{
+            
+        } fixProgressBlock:^(float progress) {
+            
+        } fixCompleteBlock:^(NSURL *cacheURL) {
+            
+        }];
         [self __startImageresizer:configure];
         return;
     }
@@ -297,8 +321,9 @@ static TFY_ImageresizerConfigure *gifConfigure_;
 #pragma mark 内部修正
     [alertCtr addAction:[UIAlertAction actionWithTitle:@"先进页面再修正" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         @tfy_weakify(self);
-        TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoURL:videoURL make:nil fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
-            [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
+        TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoURL:videoURL make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+            
+        } fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
             @tfy_strongify(self);
             if (!self) return;
             [self.navigationController popViewControllerAnimated:YES];
@@ -317,8 +342,6 @@ static TFY_ImageresizerConfigure *gifConfigure_;
        
         @tfy_weakify(self);
         [TFY_ImageresizerTool fixOrientationVideoWithAsset:videoAsset fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
-            
-            [TFY_ImageController showErrorMsg:reason pathExtension:[cacheURL pathExtension]];
             
             @tfy_strongify(self);
             if (!self) return;
@@ -342,7 +365,17 @@ static TFY_ImageresizerConfigure *gifConfigure_;
             self.isExporting = NO;
             self.tmpURL = cacheURL; // 保存该路径，裁剪后删除视频。
             
-            TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoAsset:[AVURLAsset assetWithURL:cacheURL] make:nil fixErrorBlock:nil fixStartBlock:nil fixProgressBlock:nil fixCompleteBlock:nil];
+            TFY_ImageresizerConfigure *configure = [TFY_ImageresizerConfigure defaultConfigureWithVideoAsset:[AVURLAsset assetWithURL:cacheURL] make:^(TFY_ImageresizerConfigure * _Nonnull configure) {
+                
+            } fixErrorBlock:^(NSURL *cacheURL, TFY_ImageresizerErrorReason reason) {
+                
+            } fixStartBlock:^{
+                
+            } fixProgressBlock:^(float progress) {
+                
+            } fixCompleteBlock:^(NSURL *cacheURL) {
+                
+            }];
             [self __startImageresizer:configure];
         }];
     }]];

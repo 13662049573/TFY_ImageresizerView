@@ -12,21 +12,21 @@
 @implementation TFY_SolveTool
 
 + (CGRect)oneLineTextFrameWithText:(NSString *)text font:(UIFont *)font {
-    return [self textFrameWithText:text maxSize:CGSizeMake(999, 999) font:font lineSpace:0 isOneLine:nil];
+    return [self textFrameWithText:text maxSize:CGSizeMake(999, 999) font:font lineSpace:0 isOneLine:NO];
 }
 
 + (CGRect)textFrameWithText:(NSString *)text
                     maxSize:(CGSize)maxSize
                        font:(UIFont *)font
                   lineSpace:(CGFloat)lineSpace {
-    return [self textFrameWithText:text maxSize:maxSize font:font lineSpace:lineSpace isOneLine:nil];
+    return [self textFrameWithText:text maxSize:maxSize font:font lineSpace:lineSpace isOneLine:NO];
 }
 
 + (CGRect)textFrameWithText:(NSString *)text
                     maxSize:(CGSize)maxSize
                        font:(UIFont *)font
                   lineSpace:(CGFloat)lineSpace
-                  isOneLine:(BOOL *)isOneLine {
+                  isOneLine:(BOOL)isOneLine {
     
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     attributes[NSFontAttributeName] = font;
@@ -50,7 +50,7 @@
         rect.size.height = font.pointSize;
     }
     
-    if (isOneLine) *isOneLine = !isMoreThanOneLine;
+    if (isOneLine) isOneLine = !isMoreThanOneLine;
 
     return rect;
 }
@@ -58,13 +58,13 @@
 + (CGRect)textFrameWithText:(NSString *)text
                     maxSize:(CGSize)maxSize
                  attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes {
-    return [self textFrameWithText:text maxSize:maxSize attributes:attributes isOneLine:nil];
+    return [self textFrameWithText:text maxSize:maxSize attributes:attributes isOneLine:NO];
 }
 
 + (CGRect)textFrameWithText:(NSString *)text
                     maxSize:(CGSize)maxSize
                  attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes
-                  isOneLine:(BOOL *)isOneLine {
+                  isOneLine:(BOOL)isOneLine {
     
     // 要使用默认的不带省略号的NSLineBreakByWordWrappings来进行计算，才能算出真正高度
     // 如果用带有省略号的例如"abcd..."这种模式，计算出来的只是一行的高度
@@ -91,7 +91,7 @@
         rect.size.height = font.pointSize;
     }
     
-    if (isOneLine) *isOneLine = !isMoreThanOneLine;
+    if (isOneLine) isOneLine = !isMoreThanOneLine;
     
     return rect;
 }
@@ -104,7 +104,7 @@
     return [self attTextFrameWithText:attText maxSize:maxSize isOneLine:nil];
 }
 
-+ (CGRect)attTextFrameWithText:(NSAttributedString *)attText maxSize:(CGSize)maxSize isOneLine:(BOOL *)isOneLine {
++ (CGRect)attTextFrameWithText:(NSAttributedString *)attText maxSize:(CGSize)maxSize isOneLine:(BOOL)isOneLine {
     CGRect rect;
     CGFloat lineSpace = 0;
     NSMutableParagraphStyle *parag = [attText attribute:NSParagraphStyleAttributeName atIndex:0 effectiveRange:NULL];
@@ -137,7 +137,7 @@
         rect.size.height = font.pointSize;
     }
     
-    if (isOneLine) *isOneLine = !isMoreThanOneLine;
+    if (isOneLine) isOneLine = !isMoreThanOneLine;
     
     return rect;
 }

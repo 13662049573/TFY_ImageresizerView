@@ -1269,7 +1269,7 @@ typedef NS_ENUM(NSUInteger, TFY_DotRegion) {
 - (void)setResizeWHScale:(CGFloat)resizeWHScale isToBeArbitrarily:(BOOL)isToBeArbitrarily animated:(BOOL)isAnimated {
     if (_maskImage) {
         _resizeWHScale = resizeWHScale;
-        [self setMaskImage:nil isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
+        [self setMaskImage:UIImage.new isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
     } else if (_isRoundResize) {
         _resizeWHScale = resizeWHScale;
         [self setIsRoundResize:NO isToBeArbitrarily:isToBeArbitrarily animated:isAnimated];
