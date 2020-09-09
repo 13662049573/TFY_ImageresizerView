@@ -41,15 +41,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 默认配置裁剪图片/GIF（UIImage）
  */
-+ (instancetype)defaultConfigureWithImage:(UIImage *)image make:(void(^)(TFY_ImageresizerConfigure *configure))make;
++ (instancetype)defaultConfigureWithImage:(nullable UIImage *)image make:(void(^)(TFY_ImageresizerConfigure *configure))make;
 /**
  * 默认配置裁剪图片/GIF（NSData）
  */
-+ (instancetype)defaultConfigureWithImageData:(NSData *)imageData make:(void(^)(TFY_ImageresizerConfigure *configure))make;
++ (instancetype)defaultConfigureWithImageData:(nullable NSData *)imageData make:(void(^)(TFY_ImageresizerConfigure *configure))make;
 /**
  * 默认配置裁剪视频（NSURL）
  */
-+ (instancetype)defaultConfigureWithVideoURL:(NSURL *)videoURL
++ (instancetype)defaultConfigureWithVideoURL:(nullable NSURL *)videoURL
                                         make:(void(^)(TFY_ImageresizerConfigure *configure))make
                                fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
                                fixStartBlock:(void(^)(void))fixStartBlock
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 默认配置裁剪视频（AVURLAsset）
  */
-+ (instancetype)defaultConfigureWithVideoAsset:(AVURLAsset *)videoAsset
++ (instancetype)defaultConfigureWithVideoAsset:(nullable AVURLAsset *)videoAsset
                                           make:(void(^)(TFY_ImageresizerConfigure *configure))make
                                  fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
                                  fixStartBlock:(void(^)(void))fixStartBlock
@@ -73,11 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 浅色毛玻璃配置裁剪图片/GIF（UIImage）
  */
-+ (instancetype)lightBlurMaskTypeConfigureWithImage:(UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *configure))make;
++ (instancetype)lightBlurMaskTypeConfigureWithImage:(nullable UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *configure))make;
 /**
  * 浅色毛玻璃配置裁剪图片/GIF（NSData）
  */
-+ (instancetype)lightBlurMaskTypeConfigureWithImageData:(NSData *)imageData make:(void(^)(TFY_ImageresizerConfigure *configure))make;
++ (instancetype)lightBlurMaskTypeConfigureWithImageData:(nullable NSData *)imageData make:(void(^)(TFY_ImageresizerConfigure *configure))make;
 /**
  * 浅色毛玻璃配置裁剪视频（NSURL）
  */
@@ -104,15 +104,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 深色毛玻璃配置裁剪图片/GIF（UIImage）
  */
-+ (instancetype)darkBlurMaskTypeConfigureWithImage:(UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *configure))make;
++ (instancetype)darkBlurMaskTypeConfigureWithImage:(nullable UIImage *)image make:(void (^)(TFY_ImageresizerConfigure *configure))make;
 /**
  * 深色毛玻璃配置裁剪图片/GIF（NSData）
  */
-+ (instancetype)darkBlurMaskTypeConfigureWithImageData:(NSData *)imageData make:(void(^)(TFY_ImageresizerConfigure *configure))make;
++ (instancetype)darkBlurMaskTypeConfigureWithImageData:(nullable NSData *)imageData make:(void(^)(TFY_ImageresizerConfigure *configure))make;
 /**
  * 深色毛玻璃配置裁剪视频（NSURL）
  */
-+ (instancetype)darkBlurMaskTypeConfigureWithVideoURL:(NSURL *)videoURL
++ (instancetype)darkBlurMaskTypeConfigureWithVideoURL:(nullable NSURL *)videoURL
                                                  make:(void (^)(TFY_ImageresizerConfigure *configure))make
                                         fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
                                         fixStartBlock:(void(^)(void))fixStartBlock
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 深色毛玻璃配置裁剪视频（AVURLAsset）
  */
-+ (instancetype)darkBlurMaskTypeConfigureWithVideoAsset:(AVURLAsset *)videoAsset
++ (instancetype)darkBlurMaskTypeConfigureWithVideoAsset:(nullable AVURLAsset *)videoAsset
                                                    make:(void (^)(TFY_ImageresizerConfigure *configure))make
                                           fixErrorBlock:(TFY_ImageresizerErrorBlock)fixErrorBlock
                                           fixStartBlock:(void(^)(void))fixStartBlock
@@ -129,16 +129,16 @@ NS_ASSUME_NONNULL_BEGIN
                                        fixCompleteBlock:(TFY_ExportVideoCompleteBlock)fixCompleteBlock;
 
 /** 裁剪的图片/GIF（UIImage） */
-@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong)UIImage * image;
 
 /** 裁剪的图片/GIF（NSData） */
-@property (nonatomic, strong) NSData *imageData;
+@property (nonatomic, strong)NSData * imageData;
 
 /** 裁剪的视频（NSURL） */
-@property (nonatomic, strong) NSURL *videoURL;
+@property (nonatomic, strong)NSURL * videoURL;
 
 /** 裁剪的视频（AVURLAsset） */
-@property (nonatomic, strong) AVURLAsset *videoAsset;
+@property (nonatomic, strong)AVURLAsset * videoAsset;
 
 /** 修正视频方向的错误回调 */
 @property (nonatomic, copy) TFY_ImageresizerErrorBlock fixErrorBlock;
@@ -162,16 +162,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) TFY_AnimationCurve animationCurve;
 
 /** 模糊效果 */
-@property (nonatomic, strong) UIBlurEffect *blurEffect;
+@property (nonatomic, strong) UIBlurEffect * blurEffect;
 
 /** 背景颜色 */
-@property (nonatomic, strong) UIColor *bgColor;
+@property (nonatomic, strong) UIColor * bgColor;
 
 /** 遮罩颜色的透明度（背景颜色 * 透明度） */
 @property (nonatomic, assign) CGFloat maskAlpha;
 
 /** 裁剪线颜色 */
-@property (nonatomic, strong) UIColor *strokeColor;
+@property (nonatomic, strong) UIColor * strokeColor;
 
 /** 初始化裁剪宽高比（0 为元素的宽高比，若 isRoundResize 为  YES，或 maskImage 不为空，该属性无效） */
 @property (nonatomic, assign) CGFloat resizeWHScale;
@@ -180,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isRoundResize;
 
 /** 初始化蒙版图片 */
-@property (nonatomic, strong) UIImage *maskImage;
+@property (nonatomic, strong) UIImage * maskImage;
 
 /** 初始化后是否可以任意比例拖拽 */
 @property (nonatomic, assign) BOOL isArbitrarily;
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isClockwiseRotation;
 
 /** 边框图片 */
-@property (nonatomic, strong) UIImage *borderImage;
+@property (nonatomic, strong) UIImage * borderImage;
 
 /** 边框图片与边线的偏移量 */
 @property (nonatomic, assign) CGPoint borderImageRectInset;
@@ -224,18 +224,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_viewFrame)(CGRect viewFrame);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_frameType)(TFY_ImageresizerFrameType frameType);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_animationCurve)(TFY_AnimationCurve animationCurve);
-@property (readonly) TFY_ImageresizerConfigure *(^tfy_blurEffect)(UIBlurEffect *blurEffect);
+@property (readonly) TFY_ImageresizerConfigure *(^tfy_blurEffect)(UIBlurEffect * blurEffect);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_bgColor)(UIColor *bgColor);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_maskAlpha)(CGFloat maskAlpha);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_strokeColor)(UIColor *strokeColor);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_resizeWHScale)(CGFloat resizeWHScale);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_isRoundResize)(BOOL isRoundResize);
-@property (readonly) TFY_ImageresizerConfigure *(^tfy_maskImage)(UIImage *maskImage);
+@property (readonly) TFY_ImageresizerConfigure *(^tfy_maskImage)(UIImage * maskImage);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_isArbitrarily)(BOOL isArbitrarily);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_edgeLineIsEnabled)(BOOL edgeLineIsEnabled);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_contentInsets)(UIEdgeInsets contentInsets);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_isClockwiseRotation)(BOOL isClockwiseRotation);
-@property (readonly) TFY_ImageresizerConfigure *(^tfy_borderImage)(UIImage *borderImage);
+@property (readonly) TFY_ImageresizerConfigure *(^tfy_borderImage)(UIImage * borderImage);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_borderImageRectInset)(CGPoint borderImageRectInset);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_maximumZoomScale)(CGFloat maximumZoomScale);
 @property (readonly) TFY_ImageresizerConfigure *(^tfy_isShowMidDots)(BOOL isShowMidDots);

@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, TFY_ImageresizerErrorReason) {
     - YES：可重置
     - NO：不需要重置，裁剪区域跟图片区域一致，并且没有旋转、镜像过
  */
-typedef void(^TFY_ImageresizerIsCanRecoveryBlock)(BOOL isCanRecovery);
+typedef  void(^TFY_ImageresizerIsCanRecoveryBlock)(BOOL isCanRecovery);
 
 /**
  * 是否预备缩放裁剪区域至适应范围
@@ -89,7 +89,7 @@ typedef void(^TFY_ImageresizerIsPrepareToScaleBlock)(BOOL isPrepareToScale);
     - cacheURL：目标存放路径
     - reason：错误原因（TFY_ImageresizerErrorReason）
  */
-typedef void(^TFY_ImageresizerErrorBlock)(NSURL *cacheURL, TFY_ImageresizerErrorReason reason);
+typedef void(^TFY_ImageresizerErrorBlock)(NSURL * cacheURL, TFY_ImageresizerErrorReason reason);
 
 /**
  * 图片裁剪完成的回调
@@ -97,7 +97,7 @@ typedef void(^TFY_ImageresizerErrorBlock)(NSURL *cacheURL, TFY_ImageresizerError
     - cacheURL：目标存放路径
     - isCacheSuccess：是否缓存成功（缓存不成功则cacheURL为nil）
  */
-typedef void(^TFY_CropPictureDoneBlock)(UIImage *finalImage, NSURL *cacheURL, BOOL isCacheSuccess);
+typedef void(^TFY_CropPictureDoneBlock)(UIImage * finalImage, NSURL * cacheURL, BOOL isCacheSuccess);
 
 /**
  * 视频裁剪导出的进度
@@ -109,7 +109,7 @@ typedef void(^TFY_ExportVideoProgressBlock)(float progress);
  * 视频导出开始的回调
     - exportSession：导出会话，可用于取消
  */
-typedef void(^TFY_ExportVideoStartBlock)(AVAssetExportSession *exportSession);
+typedef void(^TFY_ExportVideoStartBlock)(AVAssetExportSession * exportSession);
 
 /**
  * 视频导出完成的回调
@@ -117,7 +117,7 @@ typedef void(^TFY_ExportVideoStartBlock)(AVAssetExportSession *exportSession);
         - 如果是修正方向的视频，是无需修正的视频，cacheURL则以原路径返回
         - 如果是裁剪的视频，裁剪后自定义的路径转移失败，cacheURL返回的是也是在NSTemporaryDirectory里
  */
-typedef void(^TFY_ExportVideoCompleteBlock)(NSURL *cacheURL);
+typedef void(^TFY_ExportVideoCompleteBlock)(NSURL *  cacheURL);
 
 #pragma mark - 裁剪属性
 

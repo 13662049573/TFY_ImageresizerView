@@ -143,7 +143,7 @@
     TFY_ImageresizerConfigure *configure = [[self alloc] init];
     configure
     .tfy_viewFrame([UIScreen mainScreen].bounds)
-    .tfy_blurEffect(UIBlurEffect.new)
+    .tfy_blurEffect([UIBlurEffect effectWithStyle:UIBlurEffectStyleLight])
     .tfy_frameType(TFY_ConciseFrameType)
     .tfy_animationCurve(TFY_AnimationCurveEaseOut)
     .tfy_strokeColor(UIColor.whiteColor)
@@ -151,11 +151,11 @@
     .tfy_maskAlpha(0.75)
     .tfy_resizeWHScale(0.0)
     .tfy_isRoundResize(NO)
-    .tfy_maskImage(UIImage.new)
+    .tfy_maskImage([UIImage imageNamed:@""])
     .tfy_isArbitrarily(YES)
     .tfy_edgeLineIsEnabled(YES)
     .tfy_contentInsets(UIEdgeInsetsZero)
-    .tfy_borderImage(UIImage.new)
+    .tfy_borderImage([UIImage imageNamed:@""])
     .tfy_borderImageRectInset(CGPointZero)
     .tfy_maximumZoomScale(10.0)
     .tfy_isShowMidDots(YES)
@@ -243,14 +243,14 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIBlurEffect *))tfy_blurEffect {
+- (TFY_ImageresizerConfigure *(^)(UIBlurEffect * nullable))tfy_blurEffect {
     return ^(UIBlurEffect *blurEffect) {
         self.blurEffect = blurEffect;
         return self;
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIColor *))tfy_bgColor {
+- (TFY_ImageresizerConfigure *(^)(UIColor * nullable))tfy_bgColor {
     return ^(UIColor *bgColor) {
         self.bgColor = bgColor;
         return self;
@@ -264,7 +264,7 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIColor *))tfy_strokeColor {
+- (TFY_ImageresizerConfigure *(^)(UIColor * nullable))tfy_strokeColor {
     return ^(UIColor *strokeColor) {
         self.strokeColor = strokeColor;
         return self;
@@ -285,7 +285,7 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_maskImage {
+- (TFY_ImageresizerConfigure *(^)(UIImage * nullable))tfy_maskImage {
     return ^(UIImage *maskImage) {
         self.maskImage = maskImage;
         return self;
@@ -320,7 +320,7 @@
     };
 }
 
-- (TFY_ImageresizerConfigure *(^)(UIImage *))tfy_borderImage {
+- (TFY_ImageresizerConfigure *(^)(UIImage * nullable))tfy_borderImage {
     return ^(UIImage *borderImage) {
         self.borderImage = borderImage;
         return self;
