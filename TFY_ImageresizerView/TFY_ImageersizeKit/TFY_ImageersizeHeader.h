@@ -4,7 +4,7 @@
 //
 //  Created by 田风有 on 2020/6/20.
 //  Copyright © 2020 田风有. All rights reserved.
-//  最新版本：2.1.2
+//  最新版本：2.1.4
 
 #ifndef TFY_ImageersizeHeader_h
 #define TFY_ImageersizeHeader_h
