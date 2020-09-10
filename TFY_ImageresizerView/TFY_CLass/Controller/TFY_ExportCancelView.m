@@ -7,7 +7,7 @@
 //
 
 #import "TFY_ExportCancelView.h"
-#import "TFY_ImageersizeHeader.h"
+
 
 @interface TFY_ExportCancelView ()
 @property (nonatomic, weak) UIButton *cancelBtn;

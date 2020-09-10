@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TFY_ImageersizeHeader.h"
+#import "TFY_ImageersizeKit.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TFY_ImageController : UIViewController

@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "TFY_ImageersizeHeader.h"
 #import "TFY_ImageController.h"
 #import "TFY_ImagePickerController.h"
 #import "UIAlertController+TFY_Tools.h"

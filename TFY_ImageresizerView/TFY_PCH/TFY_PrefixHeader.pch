@@ -18,5 +18,6 @@
 #import "UIAlertController+TFY_Tools.h"
 #import "UIWindow+TFY_Tools.h"
 #import "TFY_SolveTool.h"
+#import "TFY_ImageersizeKit.h"
 
 #endif

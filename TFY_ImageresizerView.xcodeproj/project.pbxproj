@@ -158,9 +158,9 @@
 		36E12508249E294D00077563 /* NSString+TFY_Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+TFY_Tools.m"; sourceTree = "<group>"; };
 		36E1250D249E2A8500077563 /* UIWindow+TFY_Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIWindow+TFY_Tools.h"; sourceTree = "<group>"; };
 		36E1250E249E2A8500077563 /* UIWindow+TFY_Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+TFY_Tools.m"; sourceTree = "<group>"; };
-		36E12510249E2C0D00077563 /* TFY_ImageersizeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageersizeHeader.h; sourceTree = "<group>"; };
 		36E12511249E30B800077563 /* TFY_ImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageController.h; sourceTree = "<group>"; };
 		36E12512249E30B800077563 /* TFY_ImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageController.m; sourceTree = "<group>"; };
+		36EE10FF250A164300D24B3C /* TFY_ImageersizeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TFY_ImageersizeKit.h; sourceTree = "<group>"; };
 		3743B44BA1EA19383D822406 /* Pods-TFY_ImageresizerViewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFY_ImageresizerViewTests.debug.xcconfig"; path = "Target Support Files/Pods-TFY_ImageresizerViewTests/Pods-TFY_ImageresizerViewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		565EB7D224A07A2300DED939 /* TFY_ImageresizerFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFY_ImageresizerFrame.h; sourceTree = "<group>"; };
 		565EB7D324A07A2300DED939 /* TFY_ImageresizerBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFY_ImageresizerBlur.m; sourceTree = "<group>"; };
@@ -376,7 +376,7 @@
 		36E124DA249DFEE100077563 /* TFY_ImageersizeKit */ = {
 			isa = PBXGroup;
 			children = (
-				36E12510249E2C0D00077563 /* TFY_ImageersizeHeader.h */,
+				36EE10FF250A164300D24B3C /* TFY_ImageersizeKit.h */,
 				565EB7D124A07A2300DED939 /* TFY_ImageSizeTools */,
 			);
 			path = TFY_ImageersizeKit;

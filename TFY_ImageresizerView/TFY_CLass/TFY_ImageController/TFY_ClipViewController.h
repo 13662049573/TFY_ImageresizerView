@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TFY_ImageersizeHeader.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 

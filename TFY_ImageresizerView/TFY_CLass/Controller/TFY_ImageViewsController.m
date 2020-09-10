@@ -7,7 +7,7 @@
 //
 
 #import "TFY_ImageViewsController.h"
-#import "TFY_ImageersizeHeader.h"
+
 
 @interface TFY_ImageViewsController ()
 @property (nonatomic, weak) UIImageView *imageView;

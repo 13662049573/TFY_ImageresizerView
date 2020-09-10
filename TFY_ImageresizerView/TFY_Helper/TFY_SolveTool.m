@@ -101,7 +101,7 @@
 }
 
 + (CGRect)attTextFrameWithText:(NSAttributedString *)attText maxSize:(CGSize)maxSize {
-    return [self attTextFrameWithText:attText maxSize:maxSize isOneLine:nil];
+    return [self attTextFrameWithText:attText maxSize:maxSize isOneLine:NO];
 }
 
 + (CGRect)attTextFrameWithText:(NSAttributedString *)attText maxSize:(CGSize)maxSize isOneLine:(BOOL)isOneLine {
