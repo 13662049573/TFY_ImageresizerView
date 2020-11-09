@@ -9,7 +9,7 @@
 #import "ShapeMergeCell.h"
 
 @interface ShapeMergeCell ()
-TFY_CATEGORY_STRONG_PROPERTY UILabel *title_label;
+TFY_PROPERTY_STRONG UILabel *title_label;
 @end
 
 @implementation ShapeMergeCell
@@ -32,13 +32,16 @@ TFY_CATEGORY_STRONG_PROPERTY UILabel *title_label;
 -(void)setName_str:(NSString *)name_str{
     _name_str = name_str;
     
-    self.title_label.tfy_text(_name_str);
+    self.title_label.makeChain.text(_name_str);
 }
 
 -(UILabel *)title_label{
     if (!_title_label) {
-        _title_label = tfy_label();
-        _title_label.tfy_textcolor([UIColor blackColor], 1).tfy_fontSize([UIFont systemFontOfSize:50]).tfy_alignment(1);
+        _title_label = UILabelSet();
+        _title_label.makeChain
+        .textColor([UIColor blackColor])
+        .font([UIFont systemFontOfSize:50])
+        .textAlignment(NSTextAlignmentCenter);
     }
     return _title_label;
 }

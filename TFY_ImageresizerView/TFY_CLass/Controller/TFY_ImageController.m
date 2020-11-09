@@ -16,12 +16,12 @@
 #define TFY_RandomAColor(a) TFY_RGBAColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256), a)
 
 @interface TFY_ImageController ()
-TFY_CATEGORY_ASSIGN_PROPERTY TFY_ImageresizerFrameType frameType;
-TFY_CATEGORY_STRONG_PROPERTY UIImage *borderImage;
-TFY_CATEGORY_ASSIGN_PROPERTY BOOL isToBeArbitrarily,selected_bool;
-TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
-@property (nonatomic, strong) UIImage *maskImage;
-@property (nonatomic, assign) BOOL isExporting;
+TFY_PROPERTY_ASSIGN TFY_ImageresizerFrameType frameType;
+TFY_PROPERTY_STRONG UIImage *borderImage;
+TFY_PROPERTY_ASSIGN BOOL isToBeArbitrarily,selected_bool;
+TFY_PROPERTY_STRONG TFY_StackView *stackView;
+TFY_PROPERTY_STRONG UIImage *maskImage;
+TFY_PROPERTY_ASSIGN BOOL isExporting;
 @end
 
 @implementation TFY_ImageController
@@ -89,9 +89,14 @@ TFY_CATEGORY_STRONG_PROPERTY TFY_StackView *stackView;
     
     NSArray *title_Arr = @[@"更换样式",@"旋转",@"重置",@"裁剪",@"更换比例",@"模糊效果",@"随机颜色",@"更换图片"];
     [title_Arr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        UIButton *button = tfy_button();
-        button.tfy_title(obj, UIControlStateNormal, [UIColor redColor], UIControlStateNormal, [UIFont systemFontOfSize:15]).tfy_alAlignment(1).tfy_cornerRadius(10).tfy_backgroundColor([UIColor whiteColor], 1).tfy_action(self, @selector(buttonClick:), UIControlEventTouchUpInside);
-        button.tag = idx+10;
+        UIButton *button = UIButtonSet();
+        button.makeChain.text(obj, UIControlStateNormal)
+        .textColor([UIColor redColor], UIControlStateNormal)
+        .font([UIFont systemFontOfSize:15])
+        .contentVerticalAlignment(UIControlContentVerticalAlignmentCenter)
+        .cornerRadius(10).makeTag(idx+10)
+        .backgroundColor(UIColor.whiteColor)
+        .addTarget(self, @selector(buttonClick:), UIControlEventTouchUpInside);
         [self.stackView addSubview:button];
     }];
     [self.stackView tfy_StartLayout];

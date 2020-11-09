@@ -4,7 +4,7 @@ platform :ios, '10.0'
 target 'TFY_ImageresizerView' do
   use_frameworks!
   pod 'TFY_AutoLayout'
-  pod 'TFY_Category'
+  pod 'TFY_LayoutCategoryKit'
   pod 'TFY_Model'
   pod 'TFY_ProgressHUD'
   pod 'TFY_Navigation'

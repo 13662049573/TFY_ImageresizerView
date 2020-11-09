@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ShapeMergeCell : UICollectionViewCell
-TFY_CATEGORY_CHAIN_PROPERTY NSString *name_str;
-TFY_CATEGORY_CHAIN_BLOCK_PROPERTY void (^tapShapeBlock)(NSString *shape);
+TFY_PROPERTY_CHAIN NSString *name_str;
+TFY_PROPERTY_CHAIN_BLOCK(tapShapeBlock,NSString *shape);
 @end
 
 NS_ASSUME_NONNULL_END

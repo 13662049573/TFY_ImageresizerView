@@ -16,15 +16,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    if (![ScenePackage defaultPackage].isSceneApp) {
+    if (!TFY_ScenePackage.isSceneApp) {
         self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         self.window.backgroundColor = [UIColor whiteColor];
         [self.window makeKeyAndVisible];
     }
-    [[ScenePackage defaultPackage] addBeforeWindowEvent:^(ScenePackage * _Nonnull application) {
+    [TFY_ScenePackage addBeforeWindowEvent:^(TFY_Scene * _Nonnull application) {
         TFY_NavigationController *nav = [[TFY_NavigationController alloc] initWithRootViewController:[ViewController new]];
-        nav.backIconImage = [UIImage imageNamed:@"back"];
-        [UIApplication window].rootViewController = nav;
+        [UIApplication tfy_window].rootViewController = nav;
     }];
     return YES;
 }

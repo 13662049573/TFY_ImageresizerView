@@ -29,7 +29,7 @@ static NSArray<NSString *> *shapes_;
 + (instancetype)shapeListViewController:(void (^)(UIImage *))getShapeImageBlock {
    
     AttachmentFlowLayout *layout = [[AttachmentFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(TFY_Width_W/4-2, TFY_Width_W/3);
+    layout.itemSize = CGSizeMake(TFY_Width_W()/4-2, TFY_Width_W()/3);
     layout.minimumLineSpacing = 1;
     layout.minimumInteritemSpacing = 1;
     ShapeListViewController *vc = [[self alloc] initWithCollectionViewLayout:layout];
@@ -113,7 +113,7 @@ static NSArray<NSString *> *shapes_;
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSString *shape = self.dataSource[indexPath.row];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            CGFloat fontSize = TFY_Width_W;
+            CGFloat fontSize = TFY_Width_W();
             NSDictionary *attDic = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
             CGRect rect = [shape boundingRectWithSize:CGSizeMake(9999, 9999) options:NSStringDrawingUsesLineFragmentOrigin attributes:attDic context:nil];
             UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
