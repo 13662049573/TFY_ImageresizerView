@@ -44,7 +44,6 @@
 		36E124A8249DFE3000077563 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36E124A7249DFE3000077563 /* Assets.xcassets */; };
 		36E124AB249DFE3000077563 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36E124A9249DFE3000077563 /* LaunchScreen.storyboard */; };
 		36E124AE249DFE3000077563 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E124AD249DFE3000077563 /* main.m */; };
-		36E124B8249DFE3000077563 /* TFY_ImageresizerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E124B7249DFE3000077563 /* TFY_ImageresizerViewTests.m */; };
 		36E124C3249DFE3000077563 /* TFY_ImageresizerViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E124C2249DFE3000077563 /* TFY_ImageresizerViewUITests.m */; };
 		36E124DB249DFEE100077563 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E124D2249DFEE100077563 /* ViewController.m */; };
 		36E124DC249DFEE100077563 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E124D7249DFEE100077563 /* SceneDelegate.m */; };
@@ -57,7 +56,6 @@
 		38B4710365442A7C11D87749 /* Pods_TFY_ImageresizerView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BA630F7D934773B5C660B8 /* Pods_TFY_ImageresizerView.framework */; };
 		565EB7DE24A07A2300DED939 /* TFY_ImageresizerBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D324A07A2300DED939 /* TFY_ImageresizerBlur.m */; };
 		565EB7DF24A07A2300DED939 /* UIImage+TFY_ImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D424A07A2300DED939 /* UIImage+TFY_ImageLayer.m */; };
-		565EB7E024A07A2300DED939 /* TFY_ImageresizerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D624A07A2300DED939 /* TFY_ImageresizerView.m */; };
 		565EB7E124A07A2300DED939 /* TFY_ImageresizerFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7D724A07A2300DED939 /* TFY_ImageresizerFrame.m */; };
 		565EB7E224A07A2300DED939 /* TFY_ImageresizerConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7DB24A07A2300DED939 /* TFY_ImageresizerConfigure.m */; };
 		565EB7E524A086E300DED939 /* TFY_PhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 565EB7E424A086E300DED939 /* TFY_PhotoTool.m */; };
@@ -65,13 +63,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		36E124B4249DFE3000077563 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 36E12490249DFE2D00077563 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 36E12497249DFE2D00077563;
-			remoteInfo = TFY_ImageresizerView;
-		};
 		36E124BF249DFE3000077563 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 36E12490249DFE2D00077563 /* Project object */;
@@ -478,7 +469,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				36E124B5249DFE3000077563 /* PBXTargetDependency */,
 			);
 			name = TFY_ImageresizerViewTests;
 			productName = TFY_ImageresizerViewTests;
@@ -703,7 +693,6 @@
 				36858F97249ED0ED00C1903F /* AttachmentFlowLayout.m in Sources */,
 				565EB7DF24A07A2300DED939 /* UIImage+TFY_ImageLayer.m in Sources */,
 				36E1250F249E2A8500077563 /* UIWindow+TFY_Tools.m in Sources */,
-				565EB7E024A07A2300DED939 /* TFY_ImageresizerView.m in Sources */,
 				366D6EDD24E655BD004F6754 /* TFY_ExportCancelView.m in Sources */,
 				36E124DD249DFEE100077563 /* AppDelegate.m in Sources */,
 				366D6F1724E69109004F6754 /* TFY_ListViewCell.m in Sources */,
@@ -736,7 +725,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36E124B8249DFE3000077563 /* TFY_ImageresizerViewTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,11 +739,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		36E124B5249DFE3000077563 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 36E12497249DFE2D00077563 /* TFY_ImageresizerView */;
-			targetProxy = 36E124B4249DFE3000077563 /* PBXContainerItemProxy */;
-		};
 		36E124C0249DFE3000077563 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 36E12497249DFE2D00077563 /* TFY_ImageresizerView */;
@@ -826,7 +809,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -879,7 +862,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

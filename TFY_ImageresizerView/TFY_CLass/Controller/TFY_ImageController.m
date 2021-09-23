@@ -70,19 +70,14 @@ TFY_PROPERTY_ASSIGN BOOL isExporting;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController tfy_navigationBarTransparent];
+    
     self.view.backgroundColor = _configure.bgColor;//背景颜色
     self.frameType = _configure.frameType;//边框类型
     self.borderImage = _configure.borderImage;//边框图片
     self.maskImage = self.configure.maskImage;
     self.selected_bool = NO;
     
-    UIBarButtonItem *item1 = tfy_barbtnItem().tfy_titleItem(@"模板图片",13,[UIColor redColor],self,@selector(replaceMaskImage));
-    UIBarButtonItem *item2 = tfy_barbtnItem().tfy_titleItem(@"浏览",13,[UIColor redColor],self,@selector(previewAction));
-    UIBarButtonItem *item3 = tfy_barbtnItem().tfy_titleItem(@"水平镜像",13,[UIColor redColor],self,@selector(horMirror));
-    UIBarButtonItem *item4 = tfy_barbtnItem().tfy_titleItem(@"垂直镜像",13,[UIColor redColor],self,@selector(verMirror));
-    UIBarButtonItem *item5 = tfy_barbtnItem().tfy_titleItem(@"锁紧",13,[UIColor redColor],self,@selector(lockFrame));
-    self.navigationItem.rightBarButtonItems = @[item5,item4,item3,item2,item1];
+    
 
     [self.view addSubview:self.stackView];
     self.stackView.tfy_LeftSpace(0).tfy_BottomSpace(0).tfy_RightSpace(0).tfy_Height(120);
